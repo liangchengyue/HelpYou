@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="25sp"
                 android:textColor="#000000"
-                android:text="       此软件由赵荣坤、谭超、吴文鑫、黄易、梁城月共同设计完成。"/>
+                android:text="       此软件由杨雪彪、赵荣坤、谭超、吴文鑫、黄易、梁城月共同设计完成。"/>
 
         </LinearLayout>
 
