@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1.3"
+    android:background="#FFFFFF"
+    android:orientation="horizontal">
+    <!--主页按钮-->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/set_index"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@mipmap/bpage1" />
+    </LinearLayout>
+    <!--中部框按钮-->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/set_release"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@mipmap/dj" />
+    </LinearLayout>
+    <!--个人框按钮-->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/set_personal"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@mipmap/bpeople1" />
+    </LinearLayout>
+</LinearLayout>
