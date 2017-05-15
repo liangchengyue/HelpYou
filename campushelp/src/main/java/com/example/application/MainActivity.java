@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.example.adapter.MyPagerAdapter;
@@ -19,7 +20,9 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         pager = (ViewPager) findViewById(R.id.pager);
         //分别创建应用中要用到的三个界面
         View mainView = LayoutInflater.from(this).inflate(R.layout.page_main, null);
+        this.myView(mainView);
         View releaseView = LayoutInflater.from(this).inflate(R.layout.page_release, null);
         View personalView = LayoutInflater.from(this).inflate(R.layout.page_personal, null);
         //用personalView调用mySet方法
@@ -167,4 +171,33 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    //ListView 显示订单界面
+    private ListView list;
+    private List<Map<String,Object>> allValues = new ArrayList<Map<String,Object>>();
+    private SimpleAdapter adapter;
+
+    protected void myView(View lis) {
+        //主页面订单显示界面
+
+        //获取ListView组件对象
+        list = (ListView)lis.findViewById(R.id.list);
+
+        for (int i = 0; i < 30; i++) {
+
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("time", "顺丰快递");
+            map.put("pro", "取件地址：北校区");
+            map.put("collage", "送至：北区1栋");
+            map.put("remark", "态度好，请吃饭");
+            allValues.add(map);
+        }
+
+        adapter = new SimpleAdapter(this, allValues, R.layout.my_simple_list_item, new String[]{"time", "pro", "collage", "remark"},
+                new int[]{R.id.time, R.id.pro, R.id.collage, R.id.remark});
+        list.setAdapter(adapter);
+
+    }
+
 }
