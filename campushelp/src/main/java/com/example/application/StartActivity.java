@@ -14,7 +14,7 @@ public class StartActivity extends AppCompatActivity {
 
             public  void run(){
                 try {
-                    sleep(2500);
+                    sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
