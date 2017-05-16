@@ -58,7 +58,8 @@
                 android:inputType="text"
                 android:textColor="#000000"
                 android:background="#FFFFFF"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:id="@+id/userName"/>
         </LinearLayout>
         <!--密码布局-->
         <LinearLayout
@@ -82,7 +83,8 @@
                 android:inputType="textPassword"
                 android:textColor="#000000"
                 android:background="#FFFFFF"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:id="@+id/password1"/>
         </LinearLayout>
         <!--登录按钮布局-->
         <LinearLayout
@@ -90,13 +92,14 @@
             android:layout_height="0dp"
             android:layout_weight="1">
             <Button
-                android:id="@+id/dl"
+                android:id="@+id/login"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="登录"
                 android:textSize="20sp"
                 android:textColor="#000000"
-                android:background="@drawable/round"/>
+                android:background="@drawable/round"
+                />
         </LinearLayout>
 
     </LinearLayout>

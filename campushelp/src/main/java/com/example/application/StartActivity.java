@@ -18,7 +18,7 @@ public class StartActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Intent in = new Intent(StartActivity.this,MainActivity.class);
+                Intent in = new Intent(StartActivity.this,LoginActivity.class);
                 startActivity(in);
                 //跳转后关闭当前页
                 finish();
