@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,10 +22,11 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class LoginActivity extends AppCompatActivity {
+    private TextView regist;
     private EditText userName;
     private EditText password;
     private Button login;
-    private String url="http://192.168.121.1:8080/Express_delivery/user/loginAndroid";
+    private String url="http://192.168.1.98:8080/Express_delivery/user/loginAndroid";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void run() {
                         url=url+"?userName="+userName.getText()+"&password="+password.getText();
                         try {
-                            URL url1=new URL(url);
+                            URL url1= new URL(url);
                             URLConnection urlConnection=url1.openConnection();
                             InputStream is=urlConnection.getInputStream();
                             BufferedReader bf=new BufferedReader(new InputStreamReader(is));
@@ -66,6 +68,15 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 };
                 thread.start();
+            }
+        });
+        //跳转到注册页面的点击事件
+        regist = (TextView) findViewById(R.id.regist);
+        regist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent res = new Intent(LoginActivity.this,RegisterActivity.class);
+                startActivity(res);
             }
         });
     }
