@@ -25,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView regist;
     private EditText userName;
     private EditText password;
+    private TextView backPassword;
     private Button login;
     private String url="http://192.168.1.98:8080/Express_delivery/user/loginAndroid";
     @Override
@@ -77,6 +78,15 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent res = new Intent(LoginActivity.this,RegisterActivity.class);
                 startActivity(res);
+            }
+        });
+        //跳转到忘记密码
+        backPassword = (TextView) findViewById(R.id.back_password);
+        backPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in =new Intent(LoginActivity.this,BackActivity.class);
+                        startActivity(in);
             }
         });
     }
