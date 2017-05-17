@@ -79,6 +79,7 @@
             android:layout_marginRight="10dp"
             android:background="@drawable/border">
             <Button
+                android:id="@+id/buy_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#FFFFFF"
@@ -97,7 +98,7 @@
             android:layout_marginRight="10dp"
             android:background="@drawable/round">
             <Button
-                android:id="@+id/buy_btn"
+                android:id="@+id/release_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#FFFFFF"
