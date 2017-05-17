@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class SetActivity extends AppCompatActivity {
@@ -11,6 +12,7 @@ public class SetActivity extends AppCompatActivity {
     private TextView psW;
     private TextView intro;
     private TextView oPi;
+    private Button mA;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +52,13 @@ public class SetActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent op =new Intent(SetActivity.this,OpinionActivity.class);
                 startActivity(op);
+            }
+        });
+        mA = (Button) findViewById(R.id.index_btn);
+        mA.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent in = new Intent(SetActivity.this, MainActivity.class);
+                startActivity(in);
             }
         });
     }
