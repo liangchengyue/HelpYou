@@ -63,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
         View personalView = LayoutInflater.from(this).inflate(R.layout.page_personal, null);
         //用personalView调用mySet方法
         this.mySet(personalView);
+        this.myLss(personalView);
+        this.myBuy(personalView);
 
         /*//View myset = LayoutInflater.from(this).inflate(R.layout.personal_set,null);
         this.mySet(myset);
@@ -169,6 +171,36 @@ public class MainActivity extends AppCompatActivity {
         setBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 Intent in = new Intent(MainActivity.this,SetActivity.class);
+                startActivity(in);
+            }
+        });
+    }
+
+    /**
+     * 查看发布的订单跳转方法
+     */
+    private Button setlss;
+    protected void myLss(View set){
+        setlss= (Button) set.findViewById(R.id.release_btn);
+        setlss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(MainActivity.this,LssueActivity.class);
+                startActivity(in);
+            }
+        });
+    }
+
+    /**
+     * 查看购买的订单跳转方法
+     */
+    private Button setBuy;
+    protected void myBuy(View set){
+        setBuy= (Button) set.findViewById(R.id.buy_btn);
+        setBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(MainActivity.this,BuyActivity.class);
                 startActivity(in);
             }
         });

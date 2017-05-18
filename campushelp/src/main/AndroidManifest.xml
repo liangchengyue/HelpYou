@@ -37,7 +37,10 @@
         <activity android:name=".OpinionActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".BackActivity"></activity>
+        <activity android:name=".BackActivity" />
+        <activity android:name=".NewpasswordActivity" />
+        <activity android:name=".LssueActivity" />
+        <activity android:name=".BuyActivity"></activity>
     </application>
 
 </manifest>
