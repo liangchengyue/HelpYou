@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,14 +33,29 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         setContentView(R.layout.activity_login);
         userName=(EditText)findViewById(R.id.userName);
         password=(EditText)findViewById(R.id.password1);
         login=(Button)findViewById(R.id.login);
+
         login.setOnClickListener(new View.OnClickListener() {
-            @Override
+
+
+        @Override
             public void onClick(View v) {
-                Log.v("ss","____________________________");
+                String msg=validate(userName.getText().toString(),"用户名");
+            if (!msg.equals("")){
+                Toast.makeText(LoginActivity.this,msg,Toast.LENGTH_SHORT).show();
+                return;
+            }
+            msg=validate(password.getText().toString(),"密码");
+            if (!msg.equals("")){
+                Toast.makeText(LoginActivity.this,msg,Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+           Log.v("ss","____________________________");
                 Thread thread=new Thread(){
                     @Override
                     public void run() {
@@ -89,5 +105,12 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(in);
             }
         });
+    }
+    protected String validate(String userName,String title){
+        String msg="";
+        if (userName.trim().equals("")){
+            msg=msg+title+"不能为空!";
+        }
+        return msg;
     }
 }

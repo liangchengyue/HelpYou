@@ -40,7 +40,8 @@
         <activity android:name=".BackActivity" />
         <activity android:name=".NewpasswordActivity" />
         <activity android:name=".LssueActivity" />
-        <activity android:name=".BuyActivity"></activity>
+        <activity android:name=".BuyActivity" />
+        <activity android:name=".Login" />
     </application>
 
 </manifest>

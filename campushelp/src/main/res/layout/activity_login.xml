@@ -60,6 +60,8 @@
                 android:layout_weight="4"
                 android:background="@drawable/border">
             <EditText
+                android:hint="请输入您的帐号"
+                android:textColorHint="#FF979393"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="text"
@@ -95,6 +97,8 @@
                 android:layout_weight="4"
                 android:background="@drawable/border">
             <EditText
+                android:hint="请输入您的密码"
+                android:textColorHint="#FF979393"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="textPassword"
