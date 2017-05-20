@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -15,6 +16,8 @@ import android.widget.TextView;
 public class RegisterActivity extends AppCompatActivity {
 
     private Button logbtn;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

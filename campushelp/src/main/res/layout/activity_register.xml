@@ -59,7 +59,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3"
+            android:layout_weight="5"
             android:orientation="vertical"
             android:background="@drawable/round"
             android:layout_margin="10dp">
@@ -96,7 +96,8 @@
                         android:gravity="center"
                         android:textSize="24sp"
                         android:background="#FFFFFF"
-                        android:layout_margin="1dp"/>
+                        android:layout_margin="1dp"
+                        android:id="@+id/nickName_r"/>
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -135,7 +136,82 @@
                         android:gravity="center"
                         android:textSize="24sp"
                         android:background="#FFFFFF"
-                        android:layout_margin="1dp"/>
+                        android:layout_margin="1dp"
+                        android:id="@+id/userName_r"/>
+                </LinearLayout>
+            </LinearLayout>
+          <!--密码-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:background="@drawable/border" >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="密码"
+                        android:textColor="#000000"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/border"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="@drawable/border">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="#000000"
+                        android:inputType="textPassword"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="#FFFFFF"
+                        android:layout_margin="1dp"
+                        android:id="@+id/password_r"/>
+                </LinearLayout>
+            </LinearLayout>
+            <!--确认密码-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:background="@drawable/border" >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="确认密码"
+                        android:textColor="#000000"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/border"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="@drawable/border">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="#000000"
+                        android:inputType="textPassword"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="#FFFFFF"
+                        android:layout_margin="1dp"
+                        android:id="@+id/cpassword_r"/>
                 </LinearLayout>
             </LinearLayout>
             <!--性别-->
@@ -161,7 +237,8 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     android:weightSum="1"
-                    android:background="@drawable/border">
+                    android:background="@drawable/border"
+                    android:id="@+id/gender_r">
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -212,7 +289,8 @@
                         android:gravity="center"
                         android:textSize="24sp"
                         android:background="#FFFFFF"
-                        android:layout_margin="1dp" />
+                        android:layout_margin="1dp"
+                        android:id="@+id/telphone_r"/>
                 </LinearLayout>
             </LinearLayout>
             <!--校区-->
@@ -240,7 +318,8 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:background="@drawable/border">
+                    android:background="@drawable/border"
+                    android:id="@+id/school_r">
                     <Spinner
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -269,19 +348,20 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content" />
                 <Button
-                    android:id="@+id/register"
+                    android:id="@+id/registe_rr"
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:textSize="18sp"
                     android:layout_height="wrap_content"
-                    android:text="提交注册"/>
+                    android:text="提交注册"
+                    />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content" />
                 <Button
-                    android:id="@+id/reset"
+                    android:id="@+id/reset_r"
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:textSize="18sp"
