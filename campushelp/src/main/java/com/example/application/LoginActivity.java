@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.util.Util;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText password;
     private TextView backPassword;
     private Button login;
-    private String url="http://192.168.1.98:8080/Express_delivery/user/loginAndroid";
+    private String url= Util.ip+"user/loginAndroid";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,8 +56,6 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this,msg,Toast.LENGTH_SHORT).show();
                 return;
             }
-
-           Log.v("ss","____________________________");
                 Thread thread=new Thread(){
                     @Override
                     public void run() {
