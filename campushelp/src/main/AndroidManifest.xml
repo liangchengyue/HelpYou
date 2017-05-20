@@ -42,7 +42,6 @@
         <activity android:name=".LssueActivity" />
         <activity android:name=".BuyActivity" />
         <activity android:name=".Login" />
-        <activity android:name=".SetpasswordActivity"></activity>
     </application>
 
 </manifest>
