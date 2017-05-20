@@ -10,23 +10,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.example.adapter.MyPagerAdapter;
+import com.example.util.DoubleDatePickerDialog;
+import com.example.util.Util;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-
+    private Button outBtn;
     private int i;
     //底部三个按钮
     private Button[] bottomBts = new Button[3];
@@ -50,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Util.allActiveActivities.add(this);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_main);
 
@@ -60,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         View mainView = LayoutInflater.from(this).inflate(R.layout.page_main, null);
         this.myView(mainView);
         View releaseView = LayoutInflater.from(this).inflate(R.layout.page_release, null);
+        this.myDate(releaseView);
         View personalView = LayoutInflater.from(this).inflate(R.layout.page_personal, null);
         //用personalView调用mySet方法
         this.mySet(personalView);
@@ -233,5 +239,30 @@ public class MainActivity extends AppCompatActivity {
         list.setAdapter(adapter);
 
     }
+    TextView et;
+    protected void onDestroy(){
+        Util.allActiveActivities.remove(this);
+        super.onDestroy();
+    }
+    protected void myDate(View v){
+        et = (TextView) v.findViewById(R.id.et);
+        et.setOnClickListener(new View.OnClickListener() {
+            Calendar c = Calendar.getInstance();
+            @Override
+            public void onClick(View v) {
+                // 最后一个false表示不显示日期，如果要显示日期，最后参数可以是true或者不用输入
+                new DoubleDatePickerDialog(MainActivity.this, 0, new DoubleDatePickerDialog.OnDateSetListener() {
 
+                    @Override
+                    public void onDateSet(DatePicker startDatePicker, int startYear, int startMonthOfYear,
+                                          int startDayOfMonth, DatePicker endDatePicker, int endYear, int endMonthOfYear,
+                                          int endDayOfMonth) {
+                        String textString = String.format("%d-%d-%d~%d-%d-%d", startYear,
+                                startMonthOfYear + 1, startDayOfMonth, endYear, endMonthOfYear + 1, endDayOfMonth);
+                        et.setText(textString);
+                    }
+                }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), true).show();
+            }
+        });
+    }
 }

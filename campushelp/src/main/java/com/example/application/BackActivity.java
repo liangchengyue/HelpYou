@@ -7,11 +7,14 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import com.example.util.Util;
+
 public class BackActivity extends AppCompatActivity {
     private Button back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Util.allActiveActivities.add(this);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_back);
 
@@ -24,5 +27,9 @@ public class BackActivity extends AppCompatActivity {
             }
         });
 
+    }
+    protected void onDestroy(){
+        Util.allActiveActivities.remove(this);
+        super.onDestroy();
     }
 }

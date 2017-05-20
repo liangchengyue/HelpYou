@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.util.Util;
+
 import static android.R.attr.name;
 
 public class Login extends AppCompatActivity {
@@ -19,7 +21,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        Util.allActiveActivities.add(this);
         username= (EditText) findViewById(R.id.userName);
         password= (EditText) findViewById(R.id.password1);
         login= (Button) findViewById(R.id.login);
@@ -43,5 +45,9 @@ public class Login extends AppCompatActivity {
         });
 
 
+    }
+    protected void onDestroy(){
+        Util.allActiveActivities.remove(this);
+        super.onDestroy();
     }
 }

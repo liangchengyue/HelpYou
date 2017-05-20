@@ -34,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Util.allActiveActivities.add(this);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         setContentView(R.layout.activity_login);
@@ -112,5 +113,9 @@ public class LoginActivity extends AppCompatActivity {
             msg=msg+title+"不能为空!";
         }
         return msg;
+    }
+    protected void onDestroy(){
+        Util.allActiveActivities.remove(this);
+        super.onDestroy();
     }
 }

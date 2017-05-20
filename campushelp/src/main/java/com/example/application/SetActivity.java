@@ -7,15 +7,26 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.util.Util;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class SetActivity extends AppCompatActivity {
     private TextView editorData;
     private TextView psW;
     private TextView intro;
     private TextView oPi;
     private Button mA;
+    private Button outBtn;
+    //完成退出功能的组件
+
+    private int i;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Util.allActiveActivities.add(this);
         setContentView(R.layout.personal_set);
         //跳转到编辑资料的点击事件
         editorData = (TextView) findViewById(R.id.editor_data);
@@ -61,5 +72,18 @@ public class SetActivity extends AppCompatActivity {
                 startActivity(in);
             }
         });
+        //完成退出功能
+        outBtn = (Button) findViewById(R.id.out_btn);
+        outBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               for(AppCompatActivity a:Util.allActiveActivities)
+                a.finish();
+            }
+        });
+    }
+    protected void onDestroy(){
+        Util.allActiveActivities.remove(this);
+        super.onDestroy();
     }
 }

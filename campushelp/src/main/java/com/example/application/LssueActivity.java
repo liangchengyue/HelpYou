@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.util.Util;
+
 public class LssueActivity extends AppCompatActivity {
     //返回个人页面
     private Button Lreturn;
@@ -13,7 +15,7 @@ public class LssueActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lssue);
-
+        Util.allActiveActivities.add(this);
         Lreturn = (Button) findViewById(R.id.L_return);
         Lreturn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -22,5 +24,9 @@ public class LssueActivity extends AppCompatActivity {
                 startActivity(lssue);
             }
         });
+    }
+    protected void onDestroy(){
+        Util.allActiveActivities.remove(this);
+        super.onDestroy();
     }
 }

@@ -7,11 +7,14 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import com.example.util.Util;
+
 public class OpinionActivity extends AppCompatActivity {
     private Button op;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Util.allActiveActivities.add(this);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_opinion);
         op = (Button) findViewById(R.id.op_btn);
@@ -21,5 +24,9 @@ public class OpinionActivity extends AppCompatActivity {
                 startActivity(in);
             }
         });
+    }
+    protected void onDestroy(){
+        Util.allActiveActivities.remove(this);
+        super.onDestroy();
     }
 }

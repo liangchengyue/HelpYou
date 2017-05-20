@@ -26,6 +26,7 @@ public class SetpasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Util.allActiveActivities.add(this);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_setpassword);
         phone=getIntent().getStringExtra("phone");
@@ -73,5 +74,9 @@ public class SetpasswordActivity extends AppCompatActivity {
 
             }
         });
+    }
+    protected void onDestroy(){
+        Util.allActiveActivities.remove(this);
+        super.onDestroy();
     }
 }

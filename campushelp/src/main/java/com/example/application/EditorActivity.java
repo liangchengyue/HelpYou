@@ -13,6 +13,8 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.util.Util;
+
 public class EditorActivity extends AppCompatActivity {
     private Button setBtn;
 
@@ -55,8 +57,6 @@ public class EditorActivity extends AppCompatActivity {
          */
         nickName= (EditText) findViewById(R.id.nickName_r);
         userName=(EditText)findViewById(R.id.userName_r);
-        password=(EditText)findViewById(R.id.password_r);
-        cpassword=(EditText)findViewById(R.id.cpassword_r);
         gender=(RadioGroup)findViewById(R.id.gender_r);
         school=(Spinner)findViewById(R.id.spinner);
         registe=(Button)findViewById(R.id.registe_rr);
@@ -93,5 +93,9 @@ public class EditorActivity extends AppCompatActivity {
             msg=msg+title+"不能为空！";
         }
         return msg;
+    }
+    protected void onDestroy(){
+        Util.allActiveActivities.remove(this);
+        super.onDestroy();
     }
 }

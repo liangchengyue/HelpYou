@@ -9,12 +9,15 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ToggleButton;
 
+import com.example.util.Util;
+
 public class PersonalActivity extends MainActivity {
     private ToggleButton toggleButton;
     private ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Util.allActiveActivities.add(this);
         setContentView(R.layout.page_personal);
         super.init(2);
         //按钮开关
@@ -26,5 +29,9 @@ public class PersonalActivity extends MainActivity {
             }
         });
 
+    }
+    protected void onDestroy(){
+        Util.allActiveActivities.remove(this);
+        super.onDestroy();
     }
 }

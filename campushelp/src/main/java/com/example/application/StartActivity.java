@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.util.Util;
+
 public class StartActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+        Util.allActiveActivities.add(this);
         Thread thread = new Thread(){
 
             public  void run(){
@@ -26,5 +29,8 @@ public class StartActivity extends AppCompatActivity {
         } ;
         thread.start();
     }
-
+    protected void onDestroy(){
+        Util.allActiveActivities.remove(this);
+        super.onDestroy();
+    }
 }
