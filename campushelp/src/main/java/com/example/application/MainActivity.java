@@ -2,18 +2,20 @@ package com.example.application;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.adapter.MyPagerAdapter;
 import com.example.util.DoubleDatePickerDialog;
@@ -23,11 +25,19 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     private Button outBtn;
@@ -173,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
     protected void mySet(View set){
         //设置按钮的跳转
         setBtn = (Button) set.findViewById(R.id.set_btn);
-        Log.d("qwe", "_________________________________"+setBtn);
         setBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 Intent in = new Intent(MainActivity.this,SetActivity.class);
@@ -244,8 +253,23 @@ public class MainActivity extends AppCompatActivity {
         Util.allActiveActivities.remove(this);
         super.onDestroy();
     }
+    private EditText name;
+    private  EditText takeaddress;
+    private  EditText preaddress;
+    private  EditText teltPhone;
+    private EditText grade;
+    private  EditText remarks;
+    private Button addOrder;
     protected void myDate(View v){
-        et = (TextView) v.findViewById(R.id.et);
+        et = (TextView) v.findViewById(R.id.takeDate_a);
+        name=(EditText)v.findViewById(R.id.name_a);
+        takeaddress=(EditText)v.findViewById(R.id.takeaddress_a);
+        preaddress =(EditText)v.findViewById(R.id.preaddress_a);
+        teltPhone=(EditText)v.findViewById(R.id.teltPhone_a);
+        grade=(EditText)v.findViewById(R.id.grade_a);
+        remarks=(EditText)v.findViewById(R.id.remarks_a);
+        addOrder=(Button)v.findViewById(R.id.addOrder_o);
+
         et.setOnClickListener(new View.OnClickListener() {
             Calendar c = Calendar.getInstance();
             @Override
@@ -264,5 +288,93 @@ public class MainActivity extends AppCompatActivity {
                 }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), true).show();
             }
         });
+        addOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String msg=validate(et.getText().toString().trim(),"取件时间");
+                if (!msg.equals("")){
+                    Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                msg=validate(name.getText().toString().trim(),"快递名称");
+                if (!msg.equals("")){
+                    Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                msg=validate(takeaddress.getText().toString().trim(),"取货地址");
+                if (!msg.equals("")){
+                    Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                msg=validate(preaddress.getText().toString().trim(),"送达地址");
+                if (!msg.equals("")){
+                    Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String regExp = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
+                Pattern p = Pattern.compile(regExp);
+                final Matcher m = p.matcher(teltPhone.getText().toString().trim());
+                if (!m.matches()){
+                    Toast.makeText(MainActivity.this,"电话号码格式不正确！",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                final String[] flag = {""};
+            Thread thread=new Thread(){
+                @Override
+                public void run() {
+
+                    Map<String,String> map=new HashMap<String, String>();
+                    map.put("takeDate",et.getText().toString());
+                    map.put("name",name.getText().toString());
+                    map.put("takeaddress",takeaddress.getText().toString());
+                    map.put("preaddress",preaddress.getText().toString());
+                    map.put("teltPhone",teltPhone.getText().toString());
+                    map.put("grade",grade.getText().toString());
+                    map.put("remarks", remarks.getText().toString());
+                    map.put("preOrderuUser.id",Util.userId);
+                    String url=Util.ip+"order/addOrder?"+fommatPamer(map);
+                    try {
+                        URL url1= new URL(url);
+                        URLConnection urlConnection=url1.openConnection();
+                        InputStream is=urlConnection.getInputStream();
+                        BufferedReader bf=new BufferedReader(new InputStreamReader(is));
+                        flag[0] =bf.readLine();
+                        bf.close();
+                        is.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            };
+                thread.start();
+                Log.d("as",flag[0]);
+                if (flag[0].equals("true")){
+                    Toast.makeText(MainActivity.this,"订单发布成功",Toast.LENGTH_SHORT).show();
+                    et.setText("");
+                    name.setText("");
+                    takeaddress.setText("");
+                    preaddress.setText("");
+                    grade.setText("");
+                    remarks.setText("");
+                }else {
+                    Toast.makeText(MainActivity.this,"订单发布失败！",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+    protected String validate(String name,String title){
+        String msg="";
+        if (name.equals("")){
+            msg=msg+title+"不能为空！";
+        }
+        return msg;
+    }
+    protected String fommatPamer(Map<String,String> map){
+        StringBuffer sb=new StringBuffer();
+        for (String item:map.keySet()){
+            sb.append(item+"="+map.get(item)+"&");
+        }
+        return sb.toString().substring(0,sb.toString().length()-1);
     }
 }

@@ -12,4 +12,5 @@ import java.util.List;
 public class Util {
     public static String ip="http://192.168.121.1:8080/Express_delivery/";
     public static List<AppCompatActivity> allActiveActivities = new ArrayList<AppCompatActivity>();
+    public static String userId;
 }

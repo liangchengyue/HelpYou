@@ -37,7 +37,8 @@
             android:textSize="23sp"
             android:text="发布"
             android:gravity="center"
-            android:background="#CC0000"/>
+            android:background="#CC0000"
+            android:id="@+id/addOrder_o"/>
     </LinearLayout>
 
     <!--中间显示栏-->
@@ -74,7 +75,7 @@
                 android:layout_weight="4"
                 android:orientation="horizontal">
                 <EditText
-                    android:id="@+id/et"
+                    android:id="@+id/takeDate_a"
                     android:textColor="#000000"
                     android:background="#FFFFFF"
                     android:layout_width="0dp"
@@ -117,7 +118,8 @@
                     android:inputType="text"
                     android:textColor="#000000"
                     android:background="#FFFFFF"
-                    android:layout_margin="1dp"/>
+                    android:layout_margin="1dp"
+                    android:id="@+id/name_a"/>
             </LinearLayout>
         </LinearLayout>
         <!--取件地址-->
@@ -150,7 +152,8 @@
                     android:inputType="text"
                     android:textColor="#000000"
                     android:background="#FFFFFF"
-                    android:layout_margin="1dp"/>
+                    android:layout_margin="1dp"
+                    android:id="@+id/takeaddress_a"/>
             </LinearLayout>
         </LinearLayout>
         <!--送达地址-->
@@ -183,7 +186,8 @@
                     android:inputType="text"
                     android:textColor="#000000"
                     android:background="#FFFFFF"
-                    android:layout_margin="1dp"/>
+                    android:layout_margin="1dp"
+                    android:id="@+id/preaddress_a"/>
             </LinearLayout>
         </LinearLayout>
         <!--手机号码-->
@@ -216,7 +220,8 @@
                     android:inputType="text"
                     android:textColor="#000000"
                     android:background="#FFFFFF"
-                    android:layout_margin="1dp"/>
+                    android:layout_margin="1dp"
+                    android:id="@+id/teltPhone_a"/>
             </LinearLayout>
         </LinearLayout>
         <!--回报（元）-->
@@ -249,7 +254,8 @@
                     android:layout_margin="1dp"
                     android:inputType="text"
                     android:textColor="#000000"
-                    android:background="#FFFFFF" />
+                    android:background="#FFFFFF"
+                    android:id="@+id/grade_a"/>
             </LinearLayout>
         </LinearLayout>
         <!--备注-->
@@ -278,7 +284,8 @@
             android:layout_height="match_parent"
             android:layout_margin="10dp"
             android:textColor="#000000"
-            android:background="#FFFFFF"/>
+            android:background="#FFFFFF"
+            android:id="@+id/remarks_a"/>
 
         </LinearLayout>
     </LinearLayout>

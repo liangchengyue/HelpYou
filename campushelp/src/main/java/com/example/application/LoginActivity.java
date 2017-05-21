@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                                 JSONObject jsonObject=new JSONObject(line);
                                 if (jsonObject.getString("id")!=null){
                                     Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-                                    intent.putExtra("userId",jsonObject.getString("id"));
+                                    Util.userId=jsonObject.getString("id");
                                     startActivity(intent);
                                     finish();
                                 }
