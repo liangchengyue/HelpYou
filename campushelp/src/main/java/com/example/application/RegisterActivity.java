@@ -104,12 +104,12 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (inputCode.getText().toString().equals(code)){
-                    Intent intent=new Intent(RegisterActivity.this,SetpasswordActivity.class);
-                    intent.putExtra("phone",inputPhone.getText().toString());
-                    startActivity(intent);
+                    Intent intent12=new Intent(RegisterActivity.this,SetpasswordActivity.class);
+                   intent12.putExtra("phone",inputPhone.getText().toString());
+                    startActivity(intent12);
                     finish();
                 }else {
-                    Toast.makeText(RegisterActivity.this,"验证码错误！", Toast.LENGTH_SHORT).show();
+                 Toast.makeText(RegisterActivity.this,"验证码错误！", Toast.LENGTH_SHORT).show();
                 }
             }
         });
