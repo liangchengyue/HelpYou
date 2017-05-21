@@ -223,6 +223,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //跳转到搜索栏
+
+
 
     //ListView 显示订单界面
     private ListView list;
@@ -375,6 +378,8 @@ public class MainActivity extends AppCompatActivity {
             }
         };
     }
+
+
     protected String validate(String name,String title){
         String msg="";
         if (name.equals("")){
