@@ -3,6 +3,8 @@ package com.example.application;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -260,6 +262,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText grade;
     private  EditText remarks;
     private Button addOrder;
+    private   Handler handler;
     protected void myDate(View v){
         et = (TextView) v.findViewById(R.id.takeDate_a);
         name=(EditText)v.findViewById(R.id.name_a);
@@ -269,6 +272,7 @@ public class MainActivity extends AppCompatActivity {
         grade=(EditText)v.findViewById(R.id.grade_a);
         remarks=(EditText)v.findViewById(R.id.remarks_a);
         addOrder=(Button)v.findViewById(R.id.addOrder_o);
+
 
         et.setOnClickListener(new View.OnClickListener() {
             Calendar c = Calendar.getInstance();
@@ -344,24 +348,32 @@ public class MainActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
+                    Log.v("qweew",flag[0]);
+                    if (flag[0].equals("true")){
+                        //Toast.makeText(MainActivity.this,"订单发布成功",Toast.LENGTH_SHORT).show();
+                        handler.sendEmptyMessage(0);
+                    }else {
+                        //Toast.makeText(MainActivity.this,"订单发布失败！",Toast.LENGTH_SHORT).show();
+                    }
                 }
             };
                 thread.start();
-                Log.d("as",flag[0]);
-                if (flag[0].equals("true")){
-                    Toast.makeText(MainActivity.this,"订单发布成功",Toast.LENGTH_SHORT).show();
+            }
+        });
+        handler=new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what==0){
                     et.setText("");
                     name.setText("");
                     takeaddress.setText("");
                     preaddress.setText("");
+                    teltPhone.setText("");
                     grade.setText("");
                     remarks.setText("");
-                }else {
-                    Toast.makeText(MainActivity.this,"订单发布失败！",Toast.LENGTH_SHORT).show();
                 }
             }
-        });
+        };
     }
     protected String validate(String name,String title){
         String msg="";
