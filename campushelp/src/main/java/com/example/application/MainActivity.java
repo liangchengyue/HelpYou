@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         //分别创建应用中要用到的三个界面
         View mainView = LayoutInflater.from(this).inflate(R.layout.page_main, null);
         this.myView(mainView);
+        this.sear(mainView);
         View releaseView = LayoutInflater.from(this).inflate(R.layout.page_release, null);
         this.myDate(releaseView);
         View personalView = LayoutInflater.from(this).inflate(R.layout.page_personal, null);
@@ -222,6 +223,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+    //跳转到搜索栏
+    private TextView search_one;
+
+    protected void sear(View view){
+        search_one = (TextView) view.findViewById(R.id.search_one);
+        search_one.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(MainActivity.this,SearchList.class);
+                startActivity(in);
+            }
+        });
+    };
+
 
 
     //ListView 显示订单界面
@@ -375,6 +393,8 @@ public class MainActivity extends AppCompatActivity {
             }
         };
     }
+
+
     protected String validate(String name,String title){
         String msg="";
         if (name.equals("")){

@@ -13,10 +13,17 @@
         android:layout_weight="1"
         android:background="#CC0000"
         android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_weight="1">
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@mipmap/fangda_main"
+            android:id="@+id/search_one" />
+    </LinearLayout>
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -31,38 +38,12 @@
             android:layout_weight="1"
             android:background="@mipmap/jj"/>
     </LinearLayout>
-    <!--中间搜索栏-->
+    <!--中间搜索栏 到时候换成轮播框-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:background="@drawable/round"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:background="@mipmap/fangda"/>
-            </LinearLayout>
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="7"
-                android:textColor="#000000"
-                android:background="#FFFFFF"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
+
     </LinearLayout>
     <!--中间显示栏-->
     <ListView

@@ -15,20 +15,26 @@ import android.widget.Toast;
 
 import com.example.util.Util;
 
+import static com.example.application.R.id.spinner;
+
 public class EditorActivity extends AppCompatActivity {
     private Button setBtn;
-
+    private RadioGroup radioGroup;
     private EditText nickName;
     private EditText userName;
     private EditText password;
     private EditText cpassword;
     private RadioGroup gender;
     private EditText telphone;
-    private Spinner school;
+
     private Button registe;
     private  Button reset;
     private String url;
-    @Override
+    //Spinnier
+    private String[] allArea = new String[]{"贵州大学北校区","贵州大学东校区","贵州大学西校区","贵州大学南校区"};
+    private Spinner school;
+    private ArrayAdapter adapter;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -40,16 +46,34 @@ public class EditorActivity extends AppCompatActivity {
                 startActivity(in);
             }
         });
-        //设置下拉框
-        Spinner spinner = null;
-        spinner = (Spinner) this.findViewById(R.id.spinner);
-        ArrayAdapter adapter = new ArrayAdapter(this,
-                android.R.layout.simple_spinner_item, new String[]{"贵州大学北校区",
-                "贵州大学南校区", "贵州大学东校区", "贵州大学西校区"});
 
-        //设置下拉样式
-        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        spinner.setAdapter(adapter);
+        //设置RadioGroup默认选中项
+    radioGroup = (RadioGroup) findViewById(R.id.gender_r);
+        radioGroup.check(radioGroup.getChildAt(0).getId());
+
+
+
+
+        //获取下拉列表
+        school=(Spinner)findViewById(spinner);
+        //创建
+        adapter = new ArrayAdapter(this,R.layout.my_spinner_item,allArea);
+        //将adapter添加到spinner中
+        school.setAdapter(adapter);
+
+//        //设置下拉框
+//        Spinner spinner = null;
+//        spinner = (Spinner) this.findViewById(R.id.spinner);
+//        ArrayAdapter adapter = new ArrayAdapter(this,
+//                android.R.layout.simple_spinner_item, new String[]{"贵州大学北校区",
+//                "贵州大学南校区", "贵州大学东校区", "贵州大学西校区"});
+//        spinner.setSelection(1,true);
+//
+//        //设置下拉样式
+//        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+//        spinner.setAdapter(adapter);
+
+
 
 
         /**
@@ -58,7 +82,7 @@ public class EditorActivity extends AppCompatActivity {
         nickName= (EditText) findViewById(R.id.nickName_r);
         userName=(EditText)findViewById(R.id.userName_r);
         gender=(RadioGroup)findViewById(R.id.gender_r);
-        school=(Spinner)findViewById(R.id.spinner);
+
         registe=(Button)findViewById(R.id.registe_rr);
         reset=(Button)findViewById(R.id.reset_r);
         registe.setOnClickListener(new View.OnClickListener() {
