@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -19,8 +20,10 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.adapter.MyAdapter;
 import com.example.adapter.MyPagerAdapter;
 import com.example.util.DoubleDatePickerDialog;
+import com.example.util.Globals;
 import com.example.util.Util;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -38,6 +41,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -67,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Util.allActiveActivities.add(this);
+        //调用init方法，初始化，获取当前手机的宽和高
+        Globals.init(this);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_main);
 
@@ -245,28 +252,47 @@ public class MainActivity extends AppCompatActivity {
     //ListView 显示订单界面
     private ListView list;
     private List<Map<String,Object>> allValues = new ArrayList<Map<String,Object>>();
-    private SimpleAdapter adapter;
+    private MyAdapter adapter;
+    private int[] allImgs = new int[]{R.mipmap.head };
 
     protected void myView(View lis) {
         //主页面订单显示界面
 
         //获取ListView组件对象
         list = (ListView)lis.findViewById(R.id.list);
-
+        Random random = new Random();
         for (int i = 0; i < 30; i++) {
-
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("time", "顺丰快递");
             map.put("pro", "取件地址：北校区");
             map.put("collage", "送至：北区1栋");
             map.put("remark", "态度好，请吃饭");
+            map.put("img",allImgs[random.nextInt(1)]);
             allValues.add(map);
         }
-
-        adapter = new SimpleAdapter(this, allValues, R.layout.my_simple_list_item, new String[]{"time", "pro", "collage", "remark"},
-                new int[]{R.id.time, R.id.pro, R.id.collage, R.id.remark});
+        //创建自定义Adapyer
+        adapter =new MyAdapter(this,allValues);
+        //将adapter添加到ListView中
         list.setAdapter(adapter);
+      /*  adapter = new SimpleAdapter(this, allValues, R.layout.my_simple_list_item, new String[]{"time", "pro", "collage", "remark"},
+                new int[]{R.id.time, R.id.pro, R.id.collage, R.id.remark});
+        list.setAdapter(adapter);*/
+        //点击一行事件
 
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(MainActivity.this,"当前第"+position+"行",Toast.LENGTH_LONG).show();
+            }
+        });
+        //长按事件
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                return false;
+            }
+        });
     }
     TextView et;
     protected void onDestroy(){
