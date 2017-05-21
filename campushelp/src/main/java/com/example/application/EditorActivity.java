@@ -37,6 +37,7 @@ public class EditorActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Util.allActiveActivities.add(this);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_editor);
         setBtn = (Button) findViewById(R.id.set_btn);

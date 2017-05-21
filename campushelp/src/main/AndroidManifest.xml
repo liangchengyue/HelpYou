@@ -43,6 +43,7 @@
         <activity android:name=".BuyActivity" />
         <activity android:name=".Login" />
         <activity android:name=".SetpasswordActivity" />
+        <activity android:name=".SearchList" />
     </application>
 
 </manifest>

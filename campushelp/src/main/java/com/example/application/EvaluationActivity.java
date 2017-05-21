@@ -1,19 +1,17 @@
 package com.example.application;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.WindowManager;
+import android.support.v7.app.AppCompatActivity;
 
 import com.example.util.Util;
 
-public class NewpasswordActivity extends AppCompatActivity {
+public class EvaluationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Util.allActiveActivities.add(this);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        setContentView(R.layout.activity_newpassword);
+        setContentView(R.layout.activity_evaluation);
     }
     protected void onDestroy(){
         Util.allActiveActivities.remove(this);

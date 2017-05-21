@@ -10,7 +10,7 @@ import java.util.List;
  */
 
 public class Util {
-    public static String ip="http://192.168.0.1:8080/Express_delivery/";
+    public static String ip="http://192.168.1.98:8080/Express_delivery/";
     public static List<AppCompatActivity> allActiveActivities = new ArrayList<AppCompatActivity>();
     public static String userId;
 }
