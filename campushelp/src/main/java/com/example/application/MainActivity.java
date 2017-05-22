@@ -5,11 +5,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         //分别创建应用中要用到的三个界面
         View mainView = LayoutInflater.from(this).inflate(R.layout.page_main, null);
         this.myView(mainView);
+        this.imgs(mainView);
         this.sear(mainView);
         View releaseView = LayoutInflater.from(this).inflate(R.layout.page_release, null);
         this.myDate(releaseView);
@@ -423,6 +426,104 @@ public class MainActivity extends AppCompatActivity {
             }
         };
     }
+
+
+
+
+    /*   图片轮播
+    *
+    *
+    * */
+    private View view1, view2, view3;
+    private ViewPager viewPager;  //对应的viewPager
+    private List<View> viewList;//view数组
+
+    protected void imgs(View view){
+        viewPager = (ViewPager)view.findViewById(R.id.viewpager);
+        LayoutInflater inflater=getLayoutInflater();
+        view1 = inflater.inflate(R.layout.layout1, null);
+        view2 = inflater.inflate(R.layout.layout2,null);
+        view3 = inflater.inflate(R.layout.layout3, null);
+
+        viewList = new ArrayList<View>();// 将要分页显示的View装入数组中
+        viewList.add(view1);
+        viewList.add(view2);
+        viewList.add(view3);
+
+
+        PagerAdapter pagerAdapter = new PagerAdapter() {
+
+            @Override
+            public boolean isViewFromObject(View arg0, Object arg1) {
+
+                return arg0 == arg1;
+            }
+
+            @Override
+            public int getCount() {
+
+                return viewList.size();
+            }
+
+            @Override
+            public void destroyItem(ViewGroup container, int position,
+                                    Object object) {
+
+                container.removeView(viewList.get(position));
+            }
+
+            @Override
+            public Object instantiateItem(ViewGroup container, int position) {
+
+                container.addView(viewList.get(position));
+
+
+                return viewList.get(position);
+            }
+        };
+
+
+        viewPager.setAdapter(pagerAdapter);
+        /*    private ImageView imgPlay;
+        private int[] imgs = new int[]{R.mipmap.img_1, R.mipmap.img_2, R.mipmap.img_3 };
+        private Handler handler1;
+        private static int imgindex = 0;*/
+
+        /*imgPlay = (ImageView)view.findViewById(R.id.play_img);
+
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                while (true) {
+                    handler1.sendEmptyMessage(1);
+                    imgindex++;
+                    try {
+                        sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        thread.start();
+        handler1 = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                imgPlay.setBackgroundResource(imgs[imgindex % imgs.length]);
+            }
+        };*/
+
+    };
+
+
+
+
+
+
+
+
+
+
 
 
     protected String validate(String name,String title){

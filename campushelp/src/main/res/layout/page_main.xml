@@ -7,24 +7,25 @@
     android:orientation="vertical"
     android:background="#CCCCCC">
     <!--顶部栏-->
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="1.3"
         android:background="#CC0000"
         android:orientation="horizontal">
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:layout_weight="1">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@mipmap/fangda_main"
-            android:id="@+id/search_one" />
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@mipmap/fangda_main"
+                android:id="@+id/search_one" />
+        </LinearLayout>
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -39,20 +40,32 @@
             android:layout_weight="1"
             android:background="@mipmap/jj"/>
     </LinearLayout>
-    <!--中间搜索栏 到时候换成轮播框-->
+
+
+
+    <!-- 轮播框 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="5">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
 
     </LinearLayout>
+
+
     <!--中间显示栏-->
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8.7">
+        android:layout_weight="8.4">
 
     </ListView>
+
 
 </LinearLayout>
