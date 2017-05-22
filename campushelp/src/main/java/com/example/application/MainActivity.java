@@ -34,8 +34,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -261,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
         //获取ListView组件对象
         list = (ListView)lis.findViewById(R.id.list);
         Random random = new Random();
-        for (int i = 0; i <5; i++) {
+     /*   for (int i = 0; i <allValues.size(); i++) {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("time", "顺丰快递");
             map.put("pro", "取件地址：北校区");
@@ -269,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
             map.put("remark", "态度好，请吃饭");
             map.put("img",allImgs[random.nextInt(1)]);
             allValues.add(map);
-        }
+        }*/
 
         //创建自定义Adapyer
         adapter =new MyAdapter(this,allValues);
@@ -433,7 +435,11 @@ public class MainActivity extends AppCompatActivity {
     protected String fommatPamer(Map<String,String> map){
         StringBuffer sb=new StringBuffer();
         for (String item:map.keySet()){
-            sb.append(item+"="+map.get(item)+"&");
+            try {
+                sb.append(item+"="+ URLEncoder.encode(map.get(item),"UTF-8")+"&");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
         return sb.toString().substring(0,sb.toString().length()-1);
     }
