@@ -94,6 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 String json = bf.readLine();
                                                 bf.close();
                                                 is.close();
+                                                if (!json.equals("]")){
                                                 JSONArray jsonArray = new JSONArray(json.toString());
                                                 List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
                                                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -105,12 +106,14 @@ public class LoginActivity extends AppCompatActivity {
                                                     map.put("pro", jsonObject1.getString("preaddress"));
                                                     map.put("remark", jsonObject1.getString("remarks"));
                                                     map.put("img", R.mipmap.head);
-                                                    map.put("name",jsonObject1.getString("name"));
-                                                    map.put("phone",jsonObject1.getString("teltPhone"));
-                                                    map.put("grade",jsonObject1.getString("grade"));
+                                                    map.put("name", jsonObject1.getString("name"));
+                                                    map.put("phone", jsonObject1.getString("teltPhone"));
+                                                    map.put("grade", jsonObject1.getString("grade"));
                                                     mapList.add(map);
                                                 }
+
                                                 Util.orders = mapList;
+                                                }
                                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                                 startActivity(intent);
                                                 finish();

@@ -32,6 +32,9 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -257,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
     //ListView 显示订单界面
     private ListView list;
     private List<Map<String,Object>> allValues = Util.orders;
-    private MyAdapter adapter;
+    public static MyAdapter adapter;
     private int[] allImgs = new int[]{R.mipmap.head };
 
     protected void myView(View lis) {
@@ -400,8 +403,46 @@ public class MainActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    Log.v("qweew",flag[0]);
                     if (flag[0].equals("true")){
+                       Thread thread1=new Thread(){
+                           @Override
+                           public void run() {
+                               String  url = Util.ip + "order/queryOrderList";
+                               try {
+                                   URL url2 = new URL(url);
+                                   URLConnection uc = url2.openConnection();
+                                   InputStream is = uc.getInputStream();
+                                   BufferedReader bf = new BufferedReader(new InputStreamReader(is));
+                                   String json = bf.readLine();
+                                   bf.close();
+                                   is.close();
+                                   if (!json.equals("]")){
+                                       JSONArray jsonArray = new JSONArray(json.toString());
+                                       List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+                                       for (int i = 0; i < jsonArray.length(); i++) {
+                                           JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                           Map<String, Object> map = new HashMap<String, Object>();
+                                           map.put("id", jsonObject1.getString("id"));
+                                           map.put("time", jsonObject1.getString("takeDate"));
+                                           map.put("collage", jsonObject1.getString("takeaddress"));
+                                           map.put("pro", jsonObject1.getString("preaddress"));
+                                           map.put("remark", jsonObject1.getString("remarks"));
+                                           map.put("img", R.mipmap.head);
+                                           map.put("name", jsonObject1.getString("name"));
+                                           map.put("phone", jsonObject1.getString("teltPhone"));
+                                           map.put("grade", jsonObject1.getString("grade"));
+                                           mapList.add(map);
+                                       }
+
+                                       Util.orders = mapList;
+                                       handler.sendEmptyMessage(1);
+                                   }
+                               } catch (Exception e) {
+                                   e.printStackTrace();
+                               }
+                           }
+                       };
+                        thread1.start();
                         //Toast.makeText(MainActivity.this,"订单发布成功",Toast.LENGTH_SHORT).show();
                         handler.sendEmptyMessage(0);
                     }else {
@@ -423,6 +464,9 @@ public class MainActivity extends AppCompatActivity {
                     teltPhone.setText("");
                     grade.setText("");
                     remarks.setText("");
+                }
+                if (msg.what==1){
+                    adapter.notifyDataSetChanged();
                 }
             }
         };

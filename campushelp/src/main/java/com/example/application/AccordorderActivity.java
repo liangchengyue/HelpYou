@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
@@ -11,6 +12,12 @@ import android.widget.TextView;
 import com.example.util.Globals;
 import com.example.util.Util;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Map;
 
 public class AccordorderActivity extends AppCompatActivity {
@@ -33,7 +40,7 @@ public class AccordorderActivity extends AppCompatActivity {
         Globals.init(this);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_accordorder);
-        int index=getIntent().getIntExtra("index",0);
+        final int index=getIntent().getIntExtra("index",0);
         takeDate=(TextView)findViewById(R.id.takeDate_i);
         name=(TextView)findViewById(R.id.name_i);
         takeaddress=(TextView)findViewById(R.id.takeaddress_i);
@@ -44,7 +51,7 @@ public class AccordorderActivity extends AppCompatActivity {
         jiedan=(Button)findViewById(R.id.jiedan_i);
         cancal=(Button)findViewById(R.id.cancl_i);
         map=Util.orders.get(index);
-        String text=jiedan.getText().toString();
+
        Thread thread=new Thread(){
            @Override
            public void run() {
@@ -64,8 +71,44 @@ public class AccordorderActivity extends AppCompatActivity {
                     grade.setText(map.get("grade").toString());
                     remarks.setText(map.get("remark").toString());
                 }
+                if (message.what==1){
+                    teltPhone.setText(map.get("phone").toString());
+                    jiedan.setText("接单成功");
+                    MainActivity.adapter.notifyDataSetChanged();
+                }
             }
         };
+    jiedan.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String text=jiedan.getText().toString();
+            if (text.equals("接单")){
+                Thread thread1=new Thread(){
+                    @Override
+                    public void run() {
 
+                        String url=Util.ip+"order/takeOrder?takeOrderUser.id="+Util.userId+"&id="+map.get("id");
+                        try {
+                            URL url2 = new URL(url);
+                            URLConnection uc = url2.openConnection();
+                            InputStream is = uc.getInputStream();
+                            BufferedReader bf = new BufferedReader(new InputStreamReader(is));
+                            String json = bf.readLine();
+                            bf.close();
+                            is.close();
+                            if (json.equals("success")){
+                                handler.sendEmptyMessage(1);
+                                Util.orders.remove(index);
+
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                thread1.start();
+            }
+        }
+    });
     }
 }
