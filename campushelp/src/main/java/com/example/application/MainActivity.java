@@ -251,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
 
     //ListView 显示订单界面
     private ListView list;
-    private List<Map<String,Object>> allValues = new ArrayList<Map<String,Object>>();
+    private List<Map<String,Object>> allValues = Util.orders;
     private MyAdapter adapter;
     private int[] allImgs = new int[]{R.mipmap.head };
 
@@ -261,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
         //获取ListView组件对象
         list = (ListView)lis.findViewById(R.id.list);
         Random random = new Random();
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i <5; i++) {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("time", "顺丰快递");
             map.put("pro", "取件地址：北校区");
@@ -270,6 +270,7 @@ public class MainActivity extends AppCompatActivity {
             map.put("img",allImgs[random.nextInt(1)]);
             allValues.add(map);
         }
+
         //创建自定义Adapyer
         adapter =new MyAdapter(this,allValues);
         //将adapter添加到ListView中
@@ -282,7 +283,8 @@ public class MainActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MainActivity.this,"当前第"+position+"行",Toast.LENGTH_LONG).show();
+                Intent intent=new Intent(MainActivity.this,AccordorderActivity.class);
+                startActivity(intent);
             }
         });
         //长按事件

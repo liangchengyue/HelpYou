@@ -12,7 +12,6 @@ public class AccordorderActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.onCreate(savedInstanceState);
         Util.allActiveActivities.add(this);
         //调用init方法，初始化，获取当前手机的宽和高
         Globals.init(this);

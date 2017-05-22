@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,6 +16,7 @@ public class Util {
     public static String ip="http://192.168.121.1:8080/Express_delivery/";
     public static List<AppCompatActivity> allActiveActivities = new ArrayList<AppCompatActivity>();
     public static String userId;
+    public static List<Map<String,Object>> orders=new ArrayList<Map<String, Object>>();
 
     /**
      * 验证电话号码

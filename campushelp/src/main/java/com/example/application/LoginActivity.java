@@ -1,8 +1,8 @@
 package com.example.application;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.example.util.Util;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -71,11 +71,32 @@ public class LoginActivity extends AppCompatActivity {
                             is.close();
                             try {
                                 JSONObject jsonObject=new JSONObject(line);
+                                Util.userId=jsonObject.getString("id");
                                 if (jsonObject.getString("id")!=null){
-                                    Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-                                    Util.userId=jsonObject.getString("id");
-                                    startActivity(intent);
-                                    finish();
+                                    Thread thread1=new Thread(){
+                                        @Override
+                                        public void run() {
+                                            url=Util.ip+"order/queryOrderList";
+                                            try {
+                                                URL url2=new URL(url);
+                                               URLConnection uc=url2.openConnection();
+                                                InputStream is=uc.getInputStream();
+                                                BufferedReader bf=new BufferedReader(new InputStreamReader(is));
+                                                String json=bf.readLine();
+                                                bf.close();
+                                                is.close();
+                                                Log.d("json",json);
+                                                Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+                                                startActivity(intent);
+                                                finish();
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+
+                                        }
+                                    };
+                                    thread1.start();
+
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
