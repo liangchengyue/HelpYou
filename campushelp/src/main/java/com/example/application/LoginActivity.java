@@ -101,10 +101,13 @@ public class LoginActivity extends AppCompatActivity {
                                                     Map<String, Object> map = new HashMap<String, Object>();
                                                     map.put("id", jsonObject1.getString("id"));
                                                     map.put("time", jsonObject1.getString("takeDate"));
-                                                    map.put("pro", jsonObject1.getString("takeaddress"));
-                                                    map.put("collage", jsonObject1.getString("preaddress"));
+                                                    map.put("collage", jsonObject1.getString("takeaddress"));
+                                                    map.put("pro", jsonObject1.getString("preaddress"));
                                                     map.put("remark", jsonObject1.getString("remarks"));
                                                     map.put("img", R.mipmap.head);
+                                                    map.put("name",jsonObject1.getString("name"));
+                                                    map.put("phone",jsonObject1.getString("teltPhone"));
+                                                    map.put("grade",jsonObject1.getString("grade"));
                                                     mapList.add(map);
                                                 }
                                                 Util.orders = mapList;
