@@ -56,14 +56,14 @@ public class BuyActivity extends AppCompatActivity {
          * 显示购买的订单
          */
         orderList = (ListView) findViewById(R.id.order_list);
-        for (int i=0;i<4;i++){
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("call", "小石浪");
-            map.put("order_time", "接单时间：2017/5/21");
-            map.put("price", "总价：5元");
-            map.put("complete", "完成");
-            allValues.add(map);
-             }
+//        for (int i=0;i<4;i++){
+//            Map<String, Object> map = new HashMap<String, Object>();
+//            map.put("call", "小石浪");
+//            map.put("order_time", "接单时间：2017/5/21");
+//            map.put("price", "总价：5元");
+//            map.put("complete", "完成");
+//            allValues.add(map);
+//             }
          adapterBuy = new MyAdapterBuy(this,allValues);
          orderList.setAdapter(adapterBuy);
 

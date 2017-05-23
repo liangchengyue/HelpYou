@@ -73,12 +73,12 @@ public class MyAdapterLssue extends BaseAdapter implements View.OnClickListener{
         TextView complete_me = (TextView) convertView.findViewById(R.id.complete_me);
 
         Map<String,Object>map = allVallues.get(position);
-        call_me.setText(map.get("call_me").toString());
-        order_time_me.setText(map.get("order_time_me").toString());
-        price_me.setText(map.get("price_me").toString());
-        complete_me.setText(map.get("complete_me").toString());
+        call_me.setText(map.get("name").toString());
+        order_time_me.setText(map.get("time").toString());
+        price_me.setText(map.get("grade").toString());
+        complete_me.setText(map.get("state").toString());
 
-        head_me.setBackgroundResource((int) map.get("head_me"));
+        head_me.setBackgroundResource((int) map.get("img"));
         return convertView;
     }
 

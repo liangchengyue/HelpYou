@@ -9,7 +9,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.application.EvaluationActivity;
 import com.example.application.R;
 
 import java.util.List;
@@ -53,15 +52,13 @@ public class MyAdapterBuy extends BaseAdapter implements View.OnClickListener{
             //如果当前行没有被创建出来  利用之前的布局文件将行创建
             convertView = LayoutInflater.from(buy).inflate(R.layout.my_prder_list_buy,null);
             viewHolder = new ViewHolder();
-            /*viewHolder.meEva = (Button) convertView.findViewById(R.id.me_eva_btn);*/
-            viewHolder.Delete= (Button) convertView.findViewById(R.id.me_delete_btn);
+            //*//*viewHolder.meEva = (Button) convertView.findViewById(R.id.me_eva_btn);*//*
+            viewHolder.Delete= (Button) convertView.findViewById(R.id.delete_btn);
             convertView.setTag(viewHolder);
         }
         //获取viewHolder实例
-
         viewHolder = (ViewHolder) convertView.getTag();
         viewHolder.Delete.setOnClickListener(this);
-        /*viewHolder.meEva.setOnClickListener(this);*/
         //头像图片
         TextView head = (TextView) convertView.findViewById(R.id.head);
         //设置图片高度
@@ -71,12 +68,12 @@ public class MyAdapterBuy extends BaseAdapter implements View.OnClickListener{
         TextView complete = (TextView) convertView.findViewById(R.id.complete);
 
         Map<String,Object>map = allVallues.get(position);
-        call.setText(map.get("call_me").toString());
-        order_time.setText(map.get("order_time_me").toString());
-        price.setText(map.get("price_me").toString());
-        complete.setText(map.get("complete_me").toString());
+        call.setText(map.get("name").toString());
+        order_time.setText(map.get("time").toString());
+        price.setText(map.get("grade").toString());
+        complete.setText(map.get("state").toString());
 
-        head.setBackgroundResource((int) map.get("head_me"));
+        head.setBackgroundResource((int) map.get("img"));
         return convertView;
     }
 

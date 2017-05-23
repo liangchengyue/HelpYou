@@ -24,7 +24,7 @@ public class LssueActivity extends AppCompatActivity {
     //ListView中的分步点击事件
     //获取发布订单的listView
     private ListView resList;
-    private List<Map<String,Object>> allValues = Util.orders;
+    private List<Map<String,Object>> allValues = Util.takeOrders;
     private MyAdapterLssue adapterLssue;
     private int[] allImgs = new int[]{R.mipmap.head };
     @Override
@@ -46,15 +46,15 @@ public class LssueActivity extends AppCompatActivity {
         //显示订单情况
         Random random = new Random();
         resList = (ListView) findViewById(R.id.res_list);
-        for (int i=0;i<5;i++){
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("call_me", "小石浪"+i);
-            map.put("order_time_me", "接单时间：2017/5/21");
-            map.put("price_me", "总价：5元");
-            map.put("complete_me", "未完成");
-            map.put("head_me",allImgs[random.nextInt(1)]);
-            allValues.add(map);
-        }
+//        for (int i=0;i<5;i++){
+//            Map<String, Object> map = new HashMap<String, Object>();
+//            map.put("call_me", "小石浪"+i);
+//            map.put("order_time_me", "接单时间：2017/5/21");
+//            map.put("price_me", "总价：5元");
+//            map.put("complete_me", "未完成");
+//            map.put("head_me",allImgs[random.nextInt(1)]);
+//            allValues.add(map);
+//        }
 
         //创建自定义Adapyer
         adapterLssue = new MyAdapterLssue(this,allValues);
