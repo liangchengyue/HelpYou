@@ -63,8 +63,7 @@ public class EditorActivity extends AppCompatActivity {
         setBtn = (Button) findViewById(R.id.set_btn);
         setBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent in = new Intent(EditorActivity.this, SetActivity.class);
-                startActivity(in);
+                finish();
             }
         });
 

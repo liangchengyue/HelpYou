@@ -44,9 +44,9 @@
         <activity android:name=".Login" />
         <activity android:name=".SetpasswordActivity" />
         <activity android:name=".SearchList" />
-        <activity android:name=".MyevaActivity" />
         <activity android:name=".AccordorderActivity" />
-        <activity android:name=".IdActivity"></activity>
+        <activity android:name=".IdActivity"/>
+        <activity android:name=".EvaluationActivity"/>
     </application>
 
 </manifest>

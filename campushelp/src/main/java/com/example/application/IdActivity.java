@@ -42,8 +42,7 @@ public class IdActivity extends AppCompatActivity {
         out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(IdActivity.this, SetActivity.class);
-                startActivity(in);
+                finish();
             }
         });
     }

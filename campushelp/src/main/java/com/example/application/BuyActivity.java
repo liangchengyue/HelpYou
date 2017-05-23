@@ -1,6 +1,5 @@
 package com.example.application;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -35,8 +34,7 @@ public class BuyActivity extends AppCompatActivity {
         Breturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent buy = new Intent(BuyActivity.this,MainActivity.class);
-                startActivity(buy);
+                finish();
             }
         });
         /**

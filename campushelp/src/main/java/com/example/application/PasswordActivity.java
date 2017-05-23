@@ -36,8 +36,7 @@ public class PasswordActivity extends AppCompatActivity {
         ps = (Button) findViewById(R.id.ps_btn);
         ps.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent in = new Intent(PasswordActivity.this, SetActivity.class);
-                startActivity(in);
+                finish();
             }
         });
         opassword=(EditText)findViewById(R.id.old_password);

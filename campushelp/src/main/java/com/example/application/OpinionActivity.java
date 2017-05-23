@@ -20,8 +20,7 @@ public class OpinionActivity extends AppCompatActivity {
         op = (Button) findViewById(R.id.op_btn);
         op.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent in = new Intent(OpinionActivity.this, SetActivity.class);
-                startActivity(in);
+                finish();
             }
         });
     }

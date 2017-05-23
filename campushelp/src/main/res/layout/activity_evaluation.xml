@@ -18,7 +18,7 @@
             android:layout_weight="1"
             android:gravity="center">
             <Button
-                android:id="@+id/op_btn"
+                android:id="@+id/eve_out"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="返回"

@@ -18,8 +18,7 @@ public class SecondActivity extends AppCompatActivity {
         se = (Button) findViewById(R.id.se_btn);
         se.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent in = new Intent(SecondActivity.this, SetActivity.class);
-                startActivity(in);
+                finish();
             }
         });
     }

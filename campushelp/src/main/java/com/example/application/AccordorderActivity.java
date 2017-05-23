@@ -1,5 +1,6 @@
 package com.example.application;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -110,5 +111,12 @@ public class AccordorderActivity extends AppCompatActivity {
             }
         }
     });
+        cancal = (Button) findViewById(R.id.cancl_i);
+        cancal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               finish();
+            }
+        });
     }
 }
