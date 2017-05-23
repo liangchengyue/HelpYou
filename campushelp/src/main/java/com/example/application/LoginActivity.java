@@ -158,6 +158,41 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                     };
                                     thread.start();
+                                    //获取商家活动信息
+                                    Thread thread2=new Thread(){
+                                        @Override
+                                        public void run() {
+                                            String url=Util.ip+"businessActivities/queryBusinessActivities";
+                                            try {
+                                                URL url2 = new URL(url);
+                                                URLConnection uc = url2.openConnection();
+                                                InputStream is = uc.getInputStream();
+                                                BufferedReader bf = new BufferedReader(new InputStreamReader(is));
+                                                String json = bf.readLine();
+                                                bf.close();
+                                                is.close();
+                                                try {
+                                                    JSONArray jsonArray = new JSONArray(json.toString());
+                                                    List<Map<String, Object>> mapList =Util.mapListBuss ;
+                                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                                        JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                                        Map<String, Object> map = new HashMap<String, Object>();
+                                                        map.put("activeContent",jsonObject1.getString("activeContent"));
+                                                        map.put("activeEndDate",jsonObject1.getString("activeEndDate"));
+                                                        map.put("businessAddress",jsonObject1.getString("businessAddress"));
+                                                        map.put("businessName",jsonObject1.getString("businessName"));
+                                                        map.put("id",jsonObject1.getString("id"));
+                                                        mapList.add(map);
+                                                    }
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    };
+                                    thread2.start();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

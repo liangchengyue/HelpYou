@@ -20,12 +20,18 @@ import java.util.regex.Pattern;
  */
 
 public class Util {
+    //ip
     public static String ip="http://192.168.121.1:8080/Express_delivery/";
     public static List<AppCompatActivity> allActiveActivities = new ArrayList<AppCompatActivity>();
+    //用户ID
     public static String userId;
+    //未接订单列表
     public static List<Map<String,Object>> orders=new ArrayList<Map<String, Object>>();
+    //用户信息
     public static Map<String,Object> userinfo=new HashMap<>();
+    //用户所接订单列表
     public static List<Map<String,Object>>  takeOrders=new ArrayList<Map<String, Object>>();
+    //用户所发订单列表
     public static List<Map<String,Object>> preOrders=new ArrayList<Map<String, Object>>();
     /**
      * 验证电话号码
@@ -44,6 +50,14 @@ public class Util {
         }
         return msg;
     }
+    //商家活动信息
+    public static List<Map<String,Object>> mapListBuss=new ArrayList<>();
+    /**
+     * 通过链接下载图片
+     * @param path 链接
+     * @return 图片
+     * @throws IOException
+     */
     public static Bitmap getBitmap(String path) throws IOException {
 
         URL url = new URL(path);

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -61,6 +62,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -188,18 +192,12 @@ public class MainActivity extends AppCompatActivity {
                 .build();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
-    }
 
     @Override
     public void onStop() {
+        //停止图片切换
+        scheduledExecutorService.shutdown();
         super.onStop();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -624,93 +622,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /*   图片轮播
-    *
-    *
-    * */
-    private View view1, view2, view3;
-    private ViewPager viewPager;  //对应的viewPager
-    private List<View> viewList;//view数组
-
-    protected void imgs(View view) {
-        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        LayoutInflater inflater = getLayoutInflater();
-        view1 = inflater.inflate(R.layout.layout1, null);
-        view2 = inflater.inflate(R.layout.layout2, null);
-        view3 = inflater.inflate(R.layout.layout3, null);
-
-        viewList = new ArrayList<View>();// 将要分页显示的View装入数组中
-        viewList.add(view1);
-        viewList.add(view2);
-        viewList.add(view3);
-
-
-        PagerAdapter pagerAdapter = new PagerAdapter() {
-
-            @Override
-            public boolean isViewFromObject(View arg0, Object arg1) {
-
-                return arg0 == arg1;
-            }
-
-            @Override
-            public int getCount() {
-
-                return viewList.size();
-            }
-
-            @Override
-            public void destroyItem(ViewGroup container, int position,
-                                    Object object) {
-
-                container.removeView(viewList.get(position));
-            }
-
-            @Override
-            public Object instantiateItem(ViewGroup container, int position) {
-
-                container.addView(viewList.get(position));
-
-
-                return viewList.get(position);
-            }
-        };
-
-
-        viewPager.setAdapter(pagerAdapter);
-        /*    private ImageView imgPlay;
-        private int[] imgs = new int[]{R.mipmap.img_1, R.mipmap.img_2, R.mipmap.img_3 };
-        private Handler handler1;
-        private static int imgindex = 0;*/
-
-        /*imgPlay = (ImageView)view.findViewById(R.id.play_img);
-
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                while (true) {
-                    handler1.sendEmptyMessage(1);
-                    imgindex++;
-                    try {
-                        sleep(3000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        };
-        thread.start();
-        handler1 = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                imgPlay.setBackgroundResource(imgs[imgindex % imgs.length]);
-            }
-        };*/
-
-    }
-
-    ;
-
 
 
 
@@ -904,4 +815,180 @@ public class MainActivity extends AppCompatActivity {
         }
         return sb.toString().substring(0, sb.toString().length() - 1);
     }
+
+
+    /*   图片轮播
+    *
+    *
+    * */
+    private int[] imageResIds;
+    private String[] titles;
+    private List imageViews;
+    private List dots;
+    private TextView tv_title;
+    private ViewPager viewPager;
+    private ScheduledExecutorService scheduledExecutorService;
+    private int currentItem = 0;//当前页面
+
+    protected void imgs(View im) {
+        //图片资源ID
+        imageResIds = new int[]{R.mipmap.img_1,
+                R.mipmap.img_2,
+                R.mipmap.img_3};
+        //图片标题集合
+        titles = new String[imageResIds.length];
+        List<Map<String,Object>> list=Util.mapListBuss;
+        titles[0] = list.get(0).get("businessName").toString();
+        titles[1] = list.get(1).get("businessName").toString();
+        titles[2] = list.get(2).get("businessName").toString();
+        //滑动的图片
+        imageViews = new ArrayList<ImageView>();
+        for (int i = 0; i < imageResIds.length; i++) {
+            ImageView imageView = new ImageView(this);
+            imageView.setImageResource(imageResIds[i]);
+            imageViews.add(imageView);
+        }
+        //图片所对应的圆点
+        dots = new ArrayList<View>();
+        dots.add(im.findViewById(R.id.view0));
+        dots.add(im.findViewById(R.id.view1));
+        dots.add(im.findViewById(R.id.view2));
+        tv_title = (TextView)im.findViewById(R.id.title_t);
+        tv_title.setText(titles[0]);
+
+        viewPager = (ViewPager)im.findViewById(R.id.vp);
+
+        //给VviewPager添加数据
+        viewPager.setAdapter(new MypAdapter());
+
+        //页面改变监听
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            private int oldPosition = 0;
+
+
+            public void onPageSelected(int position) {
+                currentItem = position;
+
+                //改变标题
+                tv_title.setText(titles[position]);
+                //改变圆点(焦点)
+
+//                dots.get(oldPosition).setBackgroundResource(R.drawable.dot_normal);
+//                dots.get(position).setBackgroundResource(R.drawable.dot_focused);
+
+                oldPosition = position;
+
+            }
+
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+                // TODO Auto-generated method stub
+
+            }
+
+            public void onPageScrollStateChanged(int arg0) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
+    }
+    class MypAdapter extends PagerAdapter {
+
+        @Override
+        public int getCount() {
+            return imageResIds.length;
+        }
+
+        //实例化item
+        @Override
+        public Object instantiateItem(View arg0, final int arg1) {
+            View view=(View) imageViews.get(arg1);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(MainActivity.this, BussinessActivity.class);
+                    intent.putExtra("id",arg1);
+                    startActivity(intent);
+                }
+            });
+            //将每个图片加入到ViewPager里
+            ((ViewPager) arg0).addView((View) imageViews.get(arg1));
+            return imageViews.get(arg1);
+        }
+
+        @Override
+        public void destroyItem(View arg0, int arg1, Object arg2) {
+            //将每个图片在ViewPager里释放掉
+            ((ViewPager) arg0).removeView((View) arg2);
+        }
+
+        @Override
+        public boolean isViewFromObject(View arg0, Object arg1) {
+            //view 和 Object 是不是一个对象
+            return arg0 == arg1;
+        }
+
+
+        @Override
+        public void finishUpdate(View arg0) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void restoreState(Parcelable arg0, ClassLoader arg1) {
+            // TODO Auto-generated method stub
+        }
+
+        @Override
+        public Parcelable saveState() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public void startUpdate(View arg0) {
+            // TODO Auto-generated method stub
+
+        }
+    }
+    @Override
+    protected void onStart() {
+        //用一个定时器  来完成图片切换
+        //Timer 与 ScheduledExecutorService 实现定时器的效果
+
+        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+        //通过定时器 来完成 每2秒钟切换一个图片
+        //经过指定的时间后，执行所指定的任务
+        //scheduleAtFixedRate(command, initialDelay, period, unit)
+        //command 所要执行的任务
+        //initialDelay 第一次启动时 延迟启动时间
+        //period  每间隔多次时间来重新启动任务
+        //unit 时间单位
+        scheduledExecutorService.scheduleAtFixedRate(new ViewPagerTask(), 1, 5, TimeUnit.SECONDS);
+
+        super.onStart();
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+    //用来完成图片切换的任务
+    private class ViewPagerTask implements Runnable {
+
+        public void run() {
+            //实现我们的操作
+            //改变当前页面
+            currentItem = (currentItem + 1) % imageViews.size();
+
+            //Handler来实现图片切换
+            handler5.obtainMessage().sendToTarget();
+        }
+    }
+    private Handler handler5 = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            //设定viewPager当前页面
+            viewPager.setCurrentItem(currentItem);
+        }
+    };
 }

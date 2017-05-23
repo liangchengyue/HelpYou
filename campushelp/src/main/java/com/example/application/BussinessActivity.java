@@ -6,6 +6,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.util.Util;
+
+import java.util.Map;
+
 public class BussinessActivity extends AppCompatActivity {
     //商家活动页面退出
     private Button bussOut;
@@ -14,6 +18,7 @@ public class BussinessActivity extends AppCompatActivity {
     private TextView bussActiv;
     private TextView bussAddress;
     private TextView bussTime;
+    private Map<String,Object> map;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,5 +35,11 @@ public class BussinessActivity extends AppCompatActivity {
         bussActiv= (TextView) findViewById(R.id.buss_activ);
         bussAddress= (TextView) findViewById(R.id.buss_address);
         bussTime= (TextView) findViewById(R.id.buss_time);
+        int index=getIntent().getIntExtra("id",0);
+        map= Util.mapListBuss.get(index);
+        bussName.setText(map.get("businessName").toString());
+        bussActiv.setText(map.get("activeContent").toString());
+        bussAddress.setText(map.get("businessAddress").toString());
+        bussTime.setText(map.get("activeEndDate").toString());
     }
 }
