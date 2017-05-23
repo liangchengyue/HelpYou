@@ -26,17 +26,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.5"></LinearLayout>
-        <!--头像显示栏-->
+            <!--头像显示栏-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2.5"
                 android:gravity="center">
-                <TextView
-                    android:id="@+id/userImg"
+                <ImageView
                     android:layout_width="110dp"
                     android:layout_height="110dp"
-                    android:background="@drawable/circular"/>
+                    android:id="@+id/imageview"
+                    android:src="@drawable/default_personal_image"/>
             </LinearLayout>
             <!--昵称显示栏-->
             <LinearLayout
@@ -47,6 +47,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+
+                <Button
+                    android:text="从相册选择"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_gallery"
+                    android:layout_weight="1" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

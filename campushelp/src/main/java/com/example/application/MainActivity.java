@@ -7,6 +7,7 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
@@ -21,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -41,6 +43,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -104,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
         this.mySet(personalView);
         this.myLss(personalView);
         this.myBuy(personalView);
+ this.Camera(personalView);
+
 
         /*//View myset = LayoutInflater.from(this).inflate(R.layout.personal_set,null);
         this.mySet(myset);
@@ -208,23 +215,23 @@ public class MainActivity extends AppCompatActivity {
     private BitmapDrawable drawable;
     private Handler handler1;
     protected void mySet(View set){
-        userImg=(TextView)set.findViewById(R.id.userImg);
+//        userImg=(TextView)set.findViewById(R.id.userImg);
 
-        Thread thread=new Thread(){
-            @Override
-            public void run() {
-                try {
-                  Bitmap  bitmaps = Util.getBitmap(Util.ip+"ui/userimg/defaultuserimage.png");
-                    drawable = new BitmapDrawable(bitmaps);
-                    drawable.setTileModeXY(Shader.TileMode.REPEAT , Shader.TileMode.REPEAT );
-                    drawable.setDither(true);
-                    handler1.sendEmptyMessage(0);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        thread.start();
+//        Thread thread=new Thread(){
+//            @Override
+//            public void run() {
+//                try {
+//                  Bitmap  bitmaps = Util.getBitmap(Util.ip+"ui/userimg/defaultuserimage.png");
+//                    drawable = new BitmapDrawable(bitmaps);
+//                    drawable.setTileModeXY(Shader.TileMode.REPEAT , Shader.TileMode.REPEAT );
+//                    drawable.setDither(true);
+//                    handler1.sendEmptyMessage(0);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//        thread.start();
         handler1=new Handler(){
             @Override
             public void handleMessage(Message msg) {
@@ -602,6 +609,188 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    /*
+    *
+    *
+    *
+    *
+    * 头像上传模块
+    *
+    *
+    *
+    *
+    * */
+
+    private static int CAMERA_REQUEST_CODE = 1;
+    private static int GALLERY_REQUEST_CODE = 2;
+    private static int CROP_REQUEST_CODE =3 ;
+    private ImageView imageView;
+
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == CAMERA_REQUEST_CODE){
+            //判断用户是否点击了取消
+            if(data == null)
+            {
+                return;
+            }//如果用户点击的是确定按钮
+            else {
+                //从data中取出数据
+                Bundle extras = data.getExtras();
+                if(extras !=null){
+                    //保存用户拍摄的数据
+                    Bitmap bm = extras.getParcelable("data");
+//                    ImageView imageView = (ImageView) findViewById(R.id.imageview );
+//                    //把拍摄的数据显示在imageview中
+//                    imageView.setImageBitmap(bm);
+                    //使用savaBitmap方法将bm中的uri获取并转换
+                    Uri uri = savaBitmap(bm);
+                    startImageZoom(uri);
+
+
+                }
+            }
+        }
+        //判断用户是否从裁剪界面返回
+        else if (requestCode == GALLERY_REQUEST_CODE)
+        {
+            //用户点击取消
+            if(data ==null)
+            {
+                return;
+            }
+            Uri uri;
+            uri=data.getData();
+            //判断从图库中读取图片后调用裁剪界面
+            Uri FileUri = convertUri(uri);
+            startImageZoom(FileUri);
+        }
+        else if(requestCode==CROP_REQUEST_CODE)
+        {
+            if (data == null){
+                return;
+            }
+            Bundle extres = data.getExtras();
+            Bitmap bm = extres.getParcelable("data");
+            ImageView imageview = (ImageView) findViewById(R.id.imageview);
+            imageview.setImageBitmap(bm);
+        }
+    }
+
+
+    protected void Camera(View view) {
+
+
+        //通过摄像头获取头像
+//            Button button = (Button) findViewById(R.id.btn_camera);
+//            button.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                    //打开图库
+//                    startActivityForResult(intent,CAMERA_REQUEST_CODE);
+//                }
+//            });
+
+
+        //点击头像跳转到打开图库
+        //ImageView imageView = (ImageView) findViewById(R.id.imageview);
+        Button btn_gallery = (Button) view.findViewById(R.id.btn_gallery);
+        btn_gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //打开图库界面
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                //设定打开的文件类型
+                intent.setType("image/*");
+                //
+                startActivityForResult(intent,GALLERY_REQUEST_CODE);
+            }
+        });
+    }
+    //打开裁剪界面
+    private void startImageZoom(Uri uri){
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        //裁剪的类型
+        intent.setDataAndType(uri,"image/*");
+        //设置裁剪的比例和长宽
+        intent.putExtra("crop","true");
+        intent.putExtra("aspectX",1);
+        intent.putExtra("aspectY",1);
+        intent.putExtra("outputX",150);
+        intent.putExtra("outputY",150);
+        intent.putExtra("return-data",true);
+        //通过这个码打开裁剪界面
+        startActivityForResult(intent,CROP_REQUEST_CODE);
+    }
+
+
+
+
+
+    //创建文件夹
+    private Uri savaBitmap(Bitmap bm)
+    {
+        File temDir = new File(Environment.getExternalStorageDirectory() + "/com.tanchao");
+        if(!temDir.exists()){
+
+            temDir.mkdirs();
+
+        }
+        File img = new File(temDir.getAbsoluteFile() + "avater.png");
+        try {
+            //获取到bitmap类型的URI，然后添加到输出流中
+            FileOutputStream fos = new FileOutputStream(img);
+            bm.compress(Bitmap.CompressFormat.PNG,85,fos);
+            try {
+                fos.flush();
+                fos.close();
+                //返回bitmap类型的返回值
+                return Uri.fromFile(img);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+
+
+    private Uri convertUri(Uri uri)
+    {
+        InputStream is = null;
+        try {
+            //将原来content的uri读取出来，并转换为bitmap的uri
+            is = getContentResolver().openInputStream(uri);
+            //这个工厂类
+            Bitmap bitmap = BitmapFactory.decodeStream(is);
+            try {
+                is.close();
+                return savaBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+
+    }
+
+
+
+
+
+///////////////////////////////////////////////
 
 
 
