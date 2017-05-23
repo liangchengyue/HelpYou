@@ -1,6 +1,10 @@
 package com.example.application;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -200,7 +204,36 @@ public class MainActivity extends AppCompatActivity {
      *
      */
     private Button setBtn;
+    private TextView userImg;
+    private BitmapDrawable drawable;
+    private Handler handler1;
     protected void mySet(View set){
+        userImg=(TextView)set.findViewById(R.id.userImg);
+
+        Thread thread=new Thread(){
+            @Override
+            public void run() {
+                try {
+                  Bitmap  bitmaps = Util.getBitmap(Util.ip+"ui/userimg/defaultuserimage.png");
+                    drawable = new BitmapDrawable(bitmaps);
+                    drawable.setTileModeXY(Shader.TileMode.REPEAT , Shader.TileMode.REPEAT );
+                    drawable.setDither(true);
+                    handler1.sendEmptyMessage(0);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
+        handler1=new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what==0){
+                    userImg.setBackgroundDrawable(drawable);
+                }
+            }
+        };
+
         //设置按钮的跳转
         setBtn = (Button) set.findViewById(R.id.set_btn);
         setBtn.setOnClickListener(new View.OnClickListener() {

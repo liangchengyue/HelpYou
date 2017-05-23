@@ -165,7 +165,8 @@
                     android:orientation="horizontal"
                     android:weightSum="1"
                     android:background="@drawable/border"
-                    android:id="@+id/sex_id">
+                    android:id="@+id/sex_id"
+                    android:textColor="#000">
 
 
                 </TextView>
@@ -203,7 +204,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/school_id"
-
+                        android:textColor="#000"
                         />
                 </LinearLayout>
 
