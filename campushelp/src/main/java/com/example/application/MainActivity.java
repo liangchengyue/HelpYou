@@ -32,6 +32,7 @@ import com.example.adapter.MyAdapter;
 import com.example.adapter.MyPagerAdapter;
 import com.example.util.DoubleDatePickerDialog;
 import com.example.util.Globals;
+import com.example.util.UploadUtil;
 import com.example.util.Util;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         this.mySet(personalView);
         this.myLss(personalView);
         this.myBuy(personalView);
- this.Camera(personalView);
+        this.Camera(personalView);
 
 
         /*//View myset = LayoutInflater.from(this).inflate(R.layout.personal_set,null);
@@ -207,14 +208,16 @@ public class MainActivity extends AppCompatActivity {
         client.disconnect();
     }
 
-    /**个人页面设置的跳转方法
-     *
+    /**
+     * 个人页面设置的跳转方法
      */
-    private Button setBtn;
     private TextView userImg;
     private BitmapDrawable drawable;
     private Handler handler1;
-    protected void mySet(View set){
+    private Button setBtn;
+
+    protected void mySet(View set) {
+
 //        userImg=(TextView)set.findViewById(R.id.userImg);
 
 //        Thread thread=new Thread(){
@@ -232,10 +235,10 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        };
 //        thread.start();
-        handler1=new Handler(){
+        handler1 = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                if (msg.what==0){
+                if (msg.what == 0) {
                     userImg.setBackgroundDrawable(drawable);
                 }
             }
@@ -244,8 +247,8 @@ public class MainActivity extends AppCompatActivity {
         //设置按钮的跳转
         setBtn = (Button) set.findViewById(R.id.set_btn);
         setBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v){
-                Intent in = new Intent(MainActivity.this,SetActivity.class);
+            public void onClick(View v) {
+                Intent in = new Intent(MainActivity.this, SetActivity.class);
                 startActivity(in);
             }
         });
@@ -255,13 +258,60 @@ public class MainActivity extends AppCompatActivity {
      * 查看发布的订单跳转方法
      */
     private Button setlss;
-    protected void myLss(View set){
-        setlss= (Button) set.findViewById(R.id.release_btn);
+
+    protected void myLss(View set) {
+        setlss = (Button) set.findViewById(R.id.release_btn);
         setlss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(MainActivity.this,LssueActivity.class);
-                startActivity(in);
+
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        String url = Util.ip + "order/queryOrdersByTakeUser?id=" + Util.userId;
+                        String json = "";
+                        try {
+                            URL url2 = new URL(url);
+                            URLConnection uc = url2.openConnection();
+                            InputStream is = uc.getInputStream();
+                            BufferedReader bf = new BufferedReader(new InputStreamReader(is));
+                            json = bf.readLine();
+                            bf.close();
+                            is.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            if (!json.equals("]") || !json.equals("")) {
+                                JSONArray jsonArray = new JSONArray(json.toString());
+                                List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                    Map<String, Object> map = new HashMap<String, Object>();
+                                    map.put("id", jsonObject1.getString("id"));
+                                    map.put("time", jsonObject1.getString("takeDate"));
+                                    map.put("collage", jsonObject1.getString("takeaddress"));
+                                    map.put("pro", jsonObject1.getString("preaddress"));
+                                    map.put("remark", jsonObject1.getString("remarks"));
+                                    map.put("img", R.mipmap.head);
+                                    map.put("name", jsonObject1.getString("name"));
+                                    map.put("phone", jsonObject1.getString("teltPhone"));
+                                    map.put("grade", jsonObject1.getString("grade"));
+                                    map.put("state", jsonObject1.getString("state"));
+                                    mapList.add(map);
+                                }
+
+                                Util.takeOrders = mapList;
+                            }
+                            Intent in = new Intent(MainActivity.this, LssueActivity.class);
+                            startActivity(in);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                thread.start();
             }
         });
     }
@@ -270,50 +320,100 @@ public class MainActivity extends AppCompatActivity {
      * 查看购买的订单跳转方法
      */
     private Button setBuy;
-    protected void myBuy(View set){
-        setBuy= (Button) set.findViewById(R.id.buy_btn);
+
+    protected void myBuy(View set) {
+        setBuy = (Button) set.findViewById(R.id.buy_btn);
         setBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(MainActivity.this,BuyActivity.class);
-                startActivity(in);
+
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        String url = Util.ip + "order/queryOrdersByProUser?id=" + Util.userId;
+                        String json = "";
+                        try {
+                            URL url2 = new URL(url);
+                            URLConnection uc = url2.openConnection();
+                            InputStream is = uc.getInputStream();
+                            BufferedReader bf = new BufferedReader(new InputStreamReader(is));
+                            json = bf.readLine();
+                            bf.close();
+                            is.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            if (!json.equals("]") || !json.equals("")) {
+                                JSONArray jsonArray = new JSONArray(json.toString());
+                                List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                    Map<String, Object> map = new HashMap<String, Object>();
+                                    map.put("id", jsonObject1.getString("id"));
+                                    map.put("time", jsonObject1.getString("takeDate"));
+                                    map.put("collage", jsonObject1.getString("takeaddress"));
+                                    map.put("pro", jsonObject1.getString("preaddress"));
+                                    map.put("remark", jsonObject1.getString("remarks"));
+                                    map.put("img", R.mipmap.head);
+                                    map.put("name", jsonObject1.getString("name"));
+                                    map.put("phone", jsonObject1.getString("teltPhone"));
+                                    map.put("grade", jsonObject1.getString("grade"));
+                                    map.put("state", jsonObject1.getString("state"));
+                                    mapList.add(map);
+                                }
+
+                                Util.preOrders = mapList;
+
+                            }
+                            Intent in = new Intent(MainActivity.this, BuyActivity.class);
+                            startActivity(in);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                thread.start();
             }
         });
     }
-
 
 
     //跳转到搜索栏
     private TextView search_one;
 
-    protected void sear(View view){
+    protected void sear(View view) {
         search_one = (TextView) view.findViewById(R.id.search_one);
         search_one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(MainActivity.this,SearchList.class);
+                Intent in = new Intent(MainActivity.this, SearchList.class);
                 startActivity(in);
+
             }
         });
-    };
+    }
+
+    ;
 
     /**
      * 获取用户信息
      */
-    protected void getUserinfo(){
+    protected void getUserinfo() {
 
     }
+
     //ListView 显示订单界面
     private ListView list;
-    private List<Map<String,Object>> allValues = Util.orders;
+    private List<Map<String, Object>> allValues = Util.orders;
     public static MyAdapter adapter;
-    private int[] allImgs = new int[]{R.mipmap.head };
+    private int[] allImgs = new int[]{R.mipmap.head};
 
     protected void myView(View lis) {
         //主页面订单显示界面
 
         //获取ListView组件对象
-        list = (ListView)lis.findViewById(R.id.list);
+        list = (ListView) lis.findViewById(R.id.list);
         Random random = new Random();
      /*   for (int i = 0; i <allValues.size(); i++) {
             Map<String, Object> map = new HashMap<String, Object>();
@@ -326,7 +426,7 @@ public class MainActivity extends AppCompatActivity {
         }*/
 
         //创建自定义Adapyer
-        adapter =new MyAdapter(this,allValues);
+        adapter = new MyAdapter(this, allValues);
         //将adapter添加到ListView中
         list.setAdapter(adapter);
       /*  adapter = new SimpleAdapter(this, allValues, R.layout.my_simple_list_item, new String[]{"time", "pro", "collage", "remark"},
@@ -337,8 +437,8 @@ public class MainActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(MainActivity.this,AccordorderActivity.class);
-                intent.putExtra("index",position);
+                Intent intent = new Intent(MainActivity.this, AccordorderActivity.class);
+                intent.putExtra("index", position);
                 startActivity(intent);
             }
         });
@@ -351,32 +451,37 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     TextView et;
-    protected void onDestroy(){
+
+    protected void onDestroy() {
         Util.allActiveActivities.remove(this);
         super.onDestroy();
     }
+
     private EditText name;
-    private  EditText takeaddress;
-    private  EditText preaddress;
-    private  EditText teltPhone;
+    private EditText takeaddress;
+    private EditText preaddress;
+    private EditText teltPhone;
     private EditText grade;
-    private  EditText remarks;
+    private EditText remarks;
     private Button addOrder;
-    private   Handler handler;
-    protected void myDate(View v){
+    private Handler handler;
+
+    protected void myDate(View v) {
         et = (TextView) v.findViewById(R.id.takeDate_a);
-        name=(EditText)v.findViewById(R.id.name_a);
-        takeaddress=(EditText)v.findViewById(R.id.takeaddress_a);
-        preaddress =(EditText)v.findViewById(R.id.preaddress_a);
-        teltPhone=(EditText)v.findViewById(R.id.teltPhone_a);
-        grade=(EditText)v.findViewById(R.id.grade_a);
-        remarks=(EditText)v.findViewById(R.id.remarks_a);
-        addOrder=(Button)v.findViewById(R.id.addOrder_o);
+        name = (EditText) v.findViewById(R.id.name_a);
+        takeaddress = (EditText) v.findViewById(R.id.takeaddress_a);
+        preaddress = (EditText) v.findViewById(R.id.preaddress_a);
+        teltPhone = (EditText) v.findViewById(R.id.teltPhone_a);
+        grade = (EditText) v.findViewById(R.id.grade_a);
+        remarks = (EditText) v.findViewById(R.id.remarks_a);
+        addOrder = (Button) v.findViewById(R.id.addOrder_o);
 
 
         et.setOnClickListener(new View.OnClickListener() {
             Calendar c = Calendar.getInstance();
+
             @Override
             public void onClick(View v) {
                 // 最后一个false表示不显示日期，如果要显示日期，最后参数可以是true或者不用输入
@@ -396,113 +501,113 @@ public class MainActivity extends AppCompatActivity {
         addOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String msg=validate(et.getText().toString().trim(),"取件时间");
-                if (!msg.equals("")){
-                    Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
+                String msg = validate(et.getText().toString().trim(), "取件时间");
+                if (!msg.equals("")) {
+                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                msg=validate(name.getText().toString().trim(),"快递名称");
-                if (!msg.equals("")){
-                    Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
+                msg = validate(name.getText().toString().trim(), "快递名称");
+                if (!msg.equals("")) {
+                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                msg=validate(takeaddress.getText().toString().trim(),"取货地址");
-                if (!msg.equals("")){
-                    Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
+                msg = validate(takeaddress.getText().toString().trim(), "取货地址");
+                if (!msg.equals("")) {
+                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                msg=validate(preaddress.getText().toString().trim(),"送达地址");
-                if (!msg.equals("")){
-                    Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
+                msg = validate(preaddress.getText().toString().trim(), "送达地址");
+                if (!msg.equals("")) {
+                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String regExp = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
                 Pattern p = Pattern.compile(regExp);
                 final Matcher m = p.matcher(teltPhone.getText().toString().trim());
-                if (!m.matches()){
-                    Toast.makeText(MainActivity.this,"电话号码格式不正确！",Toast.LENGTH_SHORT).show();
+                if (!m.matches()) {
+                    Toast.makeText(MainActivity.this, "电话号码格式不正确！", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 final String[] flag = {""};
-            Thread thread=new Thread(){
-                @Override
-                public void run() {
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
 
-                    Map<String,String> map=new HashMap<String, String>();
-                    map.put("takeDate",et.getText().toString());
-                    map.put("name",name.getText().toString());
-                    map.put("takeaddress",takeaddress.getText().toString());
-                    map.put("preaddress",preaddress.getText().toString());
-                    map.put("teltPhone",teltPhone.getText().toString());
-                    map.put("grade",grade.getText().toString());
-                    map.put("remarks", remarks.getText().toString());
-                    map.put("preOrderuUser.id",Util.userId);
-                    String url=Util.ip+"order/addOrder?"+fommatPamer(map);
-                    try {
-                        URL url1= new URL(url);
-                        URLConnection urlConnection=url1.openConnection();
-                        InputStream is=urlConnection.getInputStream();
-                        BufferedReader bf=new BufferedReader(new InputStreamReader(is));
-                        flag[0] =bf.readLine();
-                        bf.close();
-                        is.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    if (flag[0].equals("true")){
-                       Thread thread1=new Thread(){
-                           @Override
-                           public void run() {
-                               String  url = Util.ip + "order/queryOrderList";
-                               try {
-                                   URL url2 = new URL(url);
-                                   URLConnection uc = url2.openConnection();
-                                   InputStream is = uc.getInputStream();
-                                   BufferedReader bf = new BufferedReader(new InputStreamReader(is));
-                                   String json = bf.readLine();
-                                   bf.close();
-                                   is.close();
-                                   if (!json.equals("]")){
-                                       JSONArray jsonArray = new JSONArray(json.toString());
-                                       List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
-                                       for (int i = 0; i < jsonArray.length(); i++) {
-                                           JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                           Map<String, Object> map = new HashMap<String, Object>();
-                                           map.put("id", jsonObject1.getString("id"));
-                                           map.put("time", jsonObject1.getString("takeDate"));
-                                           map.put("collage", jsonObject1.getString("takeaddress"));
-                                           map.put("pro", jsonObject1.getString("preaddress"));
-                                           map.put("remark", jsonObject1.getString("remarks"));
-                                           map.put("img", R.mipmap.head);
-                                           map.put("name", jsonObject1.getString("name"));
-                                           map.put("phone", jsonObject1.getString("teltPhone"));
-                                           map.put("grade", jsonObject1.getString("grade"));
-                                           mapList.add(map);
-                                       }
+                        Map<String, String> map = new HashMap<String, String>();
+                        map.put("takeDate", et.getText().toString());
+                        map.put("name", name.getText().toString());
+                        map.put("takeaddress", takeaddress.getText().toString());
+                        map.put("preaddress", preaddress.getText().toString());
+                        map.put("teltPhone", teltPhone.getText().toString());
+                        map.put("grade", grade.getText().toString());
+                        map.put("remarks", remarks.getText().toString());
+                        map.put("preOrderuUser.id", Util.userId);
+                        String url = Util.ip + "order/addOrder?" + fommatPamer(map);
+                        try {
+                            URL url1 = new URL(url);
+                            URLConnection urlConnection = url1.openConnection();
+                            InputStream is = urlConnection.getInputStream();
+                            BufferedReader bf = new BufferedReader(new InputStreamReader(is));
+                            flag[0] = bf.readLine();
+                            bf.close();
+                            is.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        if (flag[0].equals("true")) {
+                            Thread thread1 = new Thread() {
+                                @Override
+                                public void run() {
+                                    String url = Util.ip + "order/queryOrderList";
+                                    try {
+                                        URL url2 = new URL(url);
+                                        URLConnection uc = url2.openConnection();
+                                        InputStream is = uc.getInputStream();
+                                        BufferedReader bf = new BufferedReader(new InputStreamReader(is));
+                                        String json = bf.readLine();
+                                        bf.close();
+                                        is.close();
+                                        if (!json.equals("]")) {
+                                            JSONArray jsonArray = new JSONArray(json.toString());
+                                            List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+                                            for (int i = 0; i < jsonArray.length(); i++) {
+                                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                                Map<String, Object> map = new HashMap<String, Object>();
+                                                map.put("id", jsonObject1.getString("id"));
+                                                map.put("time", jsonObject1.getString("takeDate"));
+                                                map.put("collage", jsonObject1.getString("takeaddress"));
+                                                map.put("pro", jsonObject1.getString("preaddress"));
+                                                map.put("remark", jsonObject1.getString("remarks"));
+                                                map.put("img", R.mipmap.head);
+                                                map.put("name", jsonObject1.getString("name"));
+                                                map.put("phone", jsonObject1.getString("teltPhone"));
+                                                map.put("grade", jsonObject1.getString("grade"));
+                                                mapList.add(map);
+                                            }
 
-                                       Util.orders = mapList;
-                                       handler.sendEmptyMessage(1);
-                                   }
-                               } catch (Exception e) {
-                                   e.printStackTrace();
-                               }
-                           }
-                       };
-                        thread1.start();
-                        //Toast.makeText(MainActivity.this,"订单发布成功",Toast.LENGTH_SHORT).show();
-                        handler.sendEmptyMessage(0);
-                    }else {
-                        //Toast.makeText(MainActivity.this,"订单发布失败！",Toast.LENGTH_SHORT).show();
+                                            Util.orders = mapList;
+                                            handler.sendEmptyMessage(1);
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            };
+                            thread1.start();
+                            //Toast.makeText(MainActivity.this,"订单发布成功",Toast.LENGTH_SHORT).show();
+                            handler.sendEmptyMessage(0);
+                        } else {
+                            //Toast.makeText(MainActivity.this,"订单发布失败！",Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
-            };
+                };
                 thread.start();
             }
         });
-        handler=new Handler(){
+        handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                if (msg.what==0){
+                if (msg.what == 0) {
                     et.setText("");
                     name.setText("");
                     takeaddress.setText("");
@@ -511,14 +616,12 @@ public class MainActivity extends AppCompatActivity {
                     grade.setText("");
                     remarks.setText("");
                 }
-                if (msg.what==1){
+                if (msg.what == 1) {
                     adapter.notifyDataSetChanged();
                 }
             }
         };
     }
-
-
 
 
     /*   图片轮播
@@ -529,11 +632,11 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;  //对应的viewPager
     private List<View> viewList;//view数组
 
-    protected void imgs(View view){
-        viewPager = (ViewPager)view.findViewById(R.id.viewpager);
-        LayoutInflater inflater=getLayoutInflater();
+    protected void imgs(View view) {
+        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        LayoutInflater inflater = getLayoutInflater();
         view1 = inflater.inflate(R.layout.layout1, null);
-        view2 = inflater.inflate(R.layout.layout2,null);
+        view2 = inflater.inflate(R.layout.layout2, null);
         view3 = inflater.inflate(R.layout.layout3, null);
 
         viewList = new ArrayList<View>();// 将要分页显示的View装入数组中
@@ -604,7 +707,9 @@ public class MainActivity extends AppCompatActivity {
             }
         };*/
 
-    };
+    }
+
+    ;
 
 
 
@@ -623,24 +728,21 @@ public class MainActivity extends AppCompatActivity {
 
     private static int CAMERA_REQUEST_CODE = 1;
     private static int GALLERY_REQUEST_CODE = 2;
-    private static int CROP_REQUEST_CODE =3 ;
+    private static int CROP_REQUEST_CODE = 3;
     private ImageView imageView;
-
-
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == CAMERA_REQUEST_CODE){
+        if (requestCode == CAMERA_REQUEST_CODE) {
             //判断用户是否点击了取消
-            if(data == null)
-            {
+            if (data == null) {
                 return;
             }//如果用户点击的是确定按钮
             else {
                 //从data中取出数据
                 Bundle extras = data.getExtras();
-                if(extras !=null){
+                if (extras != null) {
                     //保存用户拍摄的数据
                     Bitmap bm = extras.getParcelable("data");
 //                    ImageView imageView = (ImageView) findViewById(R.id.imageview );
@@ -655,22 +757,18 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         //判断用户是否从裁剪界面返回
-        else if (requestCode == GALLERY_REQUEST_CODE)
-        {
+        else if (requestCode == GALLERY_REQUEST_CODE) {
             //用户点击取消
-            if(data ==null)
-            {
+            if (data == null) {
                 return;
             }
             Uri uri;
-            uri=data.getData();
+            uri = data.getData();
             //判断从图库中读取图片后调用裁剪界面
             Uri FileUri = convertUri(uri);
             startImageZoom(FileUri);
-        }
-        else if(requestCode==CROP_REQUEST_CODE)
-        {
-            if (data == null){
+        } else if (requestCode == CROP_REQUEST_CODE) {
+            if (data == null) {
                 return;
             }
             Bundle extres = data.getExtras();
@@ -707,44 +805,44 @@ public class MainActivity extends AppCompatActivity {
                 //设定打开的文件类型
                 intent.setType("image/*");
                 //
-                startActivityForResult(intent,GALLERY_REQUEST_CODE);
+                startActivityForResult(intent, GALLERY_REQUEST_CODE);
             }
         });
     }
+
     //打开裁剪界面
-    private void startImageZoom(Uri uri){
+    private void startImageZoom(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         //裁剪的类型
-        intent.setDataAndType(uri,"image/*");
+        intent.setDataAndType(uri, "image/*");
         //设置裁剪的比例和长宽
-        intent.putExtra("crop","true");
-        intent.putExtra("aspectX",1);
-        intent.putExtra("aspectY",1);
-        intent.putExtra("outputX",150);
-        intent.putExtra("outputY",150);
-        intent.putExtra("return-data",true);
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 150);
+        intent.putExtra("outputY", 150);
+        intent.putExtra("return-data", true);
         //通过这个码打开裁剪界面
-        startActivityForResult(intent,CROP_REQUEST_CODE);
+        startActivityForResult(intent, CROP_REQUEST_CODE);
     }
 
-
-
-
-
+    private File file;
     //创建文件夹
-    private Uri savaBitmap(Bitmap bm)
-    {
+    private Uri savaBitmap(Bitmap bm) {
         File temDir = new File(Environment.getExternalStorageDirectory() + "/com.tanchao");
-        if(!temDir.exists()){
+        if (!temDir.exists()) {
 
             temDir.mkdirs();
 
         }
-        File img = new File(temDir.getAbsoluteFile() + "avater.png");
+       File img = new File(temDir.getAbsoluteFile() + "avater.png");
+        file=img;
+
         try {
             //获取到bitmap类型的URI，然后添加到输出流中
             FileOutputStream fos = new FileOutputStream(img);
-            bm.compress(Bitmap.CompressFormat.PNG,85,fos);
+            bm.compress(Bitmap.CompressFormat.PNG, 85, fos);
+            file=img;
             try {
                 fos.flush();
                 fos.close();
@@ -761,10 +859,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
-    private Uri convertUri(Uri uri)
-    {
+    private Uri convertUri(Uri uri) {
         InputStream is = null;
         try {
             //将原来content的uri读取出来，并转换为bitmap的uri
@@ -787,34 +882,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
-
 ///////////////////////////////////////////////
 
 
-
-
-
-
-
-
-    protected String validate(String name,String title){
-        String msg="";
-        if (name.equals("")){
-            msg=msg+title+"不能为空！";
+    protected String validate(String name, String title) {
+        String msg = "";
+        if (name.equals("")) {
+            msg = msg + title + "不能为空！";
         }
         return msg;
     }
-    protected String fommatPamer(Map<String,String> map){
-        StringBuffer sb=new StringBuffer();
-        for (String item:map.keySet()){
+
+    protected String fommatPamer(Map<String, String> map) {
+        StringBuffer sb = new StringBuffer();
+        for (String item : map.keySet()) {
             try {
-                sb.append(item+"="+ URLEncoder.encode(map.get(item),"UTF-8")+"&");
+                sb.append(item + "=" + URLEncoder.encode(map.get(item), "UTF-8") + "&");
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
         }
-        return sb.toString().substring(0,sb.toString().length()-1);
+        return sb.toString().substring(0, sb.toString().length() - 1);
     }
 }

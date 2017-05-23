@@ -20,12 +20,13 @@ import java.util.regex.Pattern;
  */
 
 public class Util {
-    public static String ip="http://192.168.1.98:8080/Express_delivery/";
+    public static String ip="http://192.168.121.1:8080/Express_delivery/";
     public static List<AppCompatActivity> allActiveActivities = new ArrayList<AppCompatActivity>();
     public static String userId;
     public static List<Map<String,Object>> orders=new ArrayList<Map<String, Object>>();
     public static Map<String,Object> userinfo=new HashMap<>();
-
+    public static List<Map<String,Object>>  takeOrders=new ArrayList<Map<String, Object>>();
+    public static List<Map<String,Object>> preOrders=new ArrayList<Map<String, Object>>();
     /**
      * 验证电话号码
      * @param text 电话号码
