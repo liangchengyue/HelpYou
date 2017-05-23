@@ -17,7 +17,7 @@
             android:layout_weight="1"
             android:gravity="center">
             <Button
-                android:id="@+id/set_btn"
+                android:id="@+id/set_btn_id"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="设置"

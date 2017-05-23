@@ -78,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                             String line = bf.readLine();
                             bf.close();
                             is.close();
+
                             try {
                                 final JSONObject jsonObject = new JSONObject(line);
                                 Util.userId = jsonObject.getString("id");
@@ -124,7 +125,39 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                     };
                                     thread1.start();
-
+                                    Thread thread =new Thread(){
+                                        @Override
+                                        public void run() {
+                                            String url=Util.ip+"user/getUserbyIdForAndroid?id="+Util.userId;
+                                            try {
+                                                URL url2 = new URL(url);
+                                                URLConnection uc = url2.openConnection();
+                                                InputStream is = uc.getInputStream();
+                                                BufferedReader bf = new BufferedReader(new InputStreamReader(is));
+                                                String json = bf.readLine();
+                                                bf.close();
+                                                is.close();
+                                                try {
+                                                    JSONObject object=new JSONObject(json);
+                                                    Map<String,Object> map=Util.userinfo;
+                                                    map.put("nickName",object.getString("nickName"));
+                                                    map.put("userName",object.getString("userName"));
+                                                    map.put("integral",object.getString("integral"));
+                                                    map.put("password",object.getString("password"));
+                                                    map.put("idCard",object.getString("idCard"));
+                                                    map.put("gender",object.getString("gender"));
+                                                    map.put("imagePath",object.getString("imagePath"));
+                                                    map.put("school",object.getString("school"));
+                                                    map.put("realName",object.getString("trueName"));
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    };
+                                    thread.start();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

@@ -33,7 +33,13 @@ public class SetActivity extends AppCompatActivity {
         editorData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent edi = new Intent(SetActivity.this,EditorActivity.class);
+                Intent edi=null;
+                if (Util.userinfo.get("realName")==null){
+                    edi = new Intent(SetActivity.this,EditorActivity.class);
+                }else {
+                    edi=new Intent(SetActivity.this,IdActivity.class);
+                }
+
                 startActivity(edi);
             }
         });

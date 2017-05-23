@@ -33,6 +33,7 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -103,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         /*//View myset = LayoutInflater.from(this).inflate(R.layout.personal_set,null);
         this.mySet(myset);
         allViews.add(myset);*/
+        getUserinfo();
 
         allViews.add(mainView);
         allViews.add(releaseView);
@@ -255,8 +257,12 @@ public class MainActivity extends AppCompatActivity {
         });
     };
 
+    /**
+     * 获取用户信息
+     */
+    protected void getUserinfo(){
 
-
+    }
     //ListView 显示订单界面
     private ListView list;
     private List<Map<String,Object>> allValues = Util.orders;

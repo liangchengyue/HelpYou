@@ -3,6 +3,7 @@ package com.example.util;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -17,6 +18,7 @@ public class Util {
     public static List<AppCompatActivity> allActiveActivities = new ArrayList<AppCompatActivity>();
     public static String userId;
     public static List<Map<String,Object>> orders=new ArrayList<Map<String, Object>>();
+    public static Map<String,Object> userinfo=new HashMap<>();
 
     /**
      * 验证电话号码
