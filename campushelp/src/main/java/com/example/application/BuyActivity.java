@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.example.adapter.MyAdapterBuy;
+import com.example.adapter.MyAdapterLssue;
 import com.example.util.Util;
 
 import java.util.ArrayList;
@@ -18,10 +20,10 @@ public class BuyActivity extends AppCompatActivity {
     //返回个人页面
     private Button Breturn;
 
-    private Button evaBtn;
 
     private List<Map<String,Object>> allValues =Util.preOrders;
-    private SimpleAdapter adapter;
+    private MyAdapterBuy adapterBuy;
+    private int[] allImgs = new int[]{R.mipmap.head };
     private ListView orderList;
 
     @Override
@@ -54,17 +56,21 @@ public class BuyActivity extends AppCompatActivity {
          * 显示购买的订单
          */
         orderList = (ListView) findViewById(R.id.order_list);
-//        for (int i=0;i<4;i++){
-//            Map<String, Object> map = new HashMap<String, Object>();
-//            map.put("call", "小石浪");
-//            map.put("order_time", "接单时间：2017/5/21");
-//            map.put("price", "总价：5元");
-//            map.put("complete", "完成");
-//            allValues.add(map);
-//        }
-        adapter = new SimpleAdapter(this, allValues, R.layout.my_prder_list_buy, new String[]{"name", "time", "grade", "state"},
-                new int[]{R.id.call, R.id.order_time, R.id.price, R.id.complete});
-        orderList.setAdapter(adapter);
+        for (int i=0;i<4;i++){
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("call", "小石浪");
+            map.put("order_time", "接单时间：2017/5/21");
+            map.put("price", "总价：5元");
+            map.put("complete", "完成");
+            allValues.add(map);
+             }
+         adapterBuy = new MyAdapterBuy(this,allValues);
+         orderList.setAdapter(adapterBuy);
+
+
+        /*adapter = new SimpleAdapter(this, allValues, R.layout.my_prder_list_buy, new String[]{"name", "time", "grade", "state"},
+                new int[]{R.id.call, R.id.order_time, R.id.price, R.id.complete});*/
+
     }
     protected void onDestroy(){
         Util.allActiveActivities.remove(this);

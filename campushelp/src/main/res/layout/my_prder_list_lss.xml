@@ -134,7 +134,7 @@
                     android:id="@+id/me_delete_btn"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:text="取消订单"
+                    android:text="删除订单"
                     android:focusable="false"
                     android:layout_weight="1"
                     android:textColor="#FF9900"
