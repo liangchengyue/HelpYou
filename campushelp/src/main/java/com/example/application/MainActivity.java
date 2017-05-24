@@ -209,39 +209,16 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 个人页面设置的跳转方法
      */
-    private TextView userImg;
-    private BitmapDrawable drawable;
-    private Handler handler1;
     private Button setBtn;
+    private TextView nickName;
+    private TextView graden;
 
     protected void mySet(View set) {
-
-//        userImg=(TextView)set.findViewById(R.id.userImg);
-
-//        Thread thread=new Thread(){
-//            @Override
-//            public void run() {
-//                try {
-//                  Bitmap  bitmaps = Util.getBitmap(Util.ip+"ui/userimg/defaultuserimage.png");
-//                    drawable = new BitmapDrawable(bitmaps);
-//                    drawable.setTileModeXY(Shader.TileMode.REPEAT , Shader.TileMode.REPEAT );
-//                    drawable.setDither(true);
-//                    handler1.sendEmptyMessage(0);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        };
-//        thread.start();
-        handler1 = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                if (msg.what == 0) {
-                    userImg.setBackgroundDrawable(drawable);
-                }
-            }
-        };
-
+    nickName=(TextView)set.findViewById(R.id.nick_name_m);
+        graden=(TextView)set.findViewById(R.id.grade_m);
+        Map<String,Object> map=Util.userinfo;
+        nickName.setText(map.get("userName").toString());
+        graden.setText(map.get("integral").toString());
         //设置按钮的跳转
         setBtn = (Button) set.findViewById(R.id.set_btn);
         setBtn.setOnClickListener(new View.OnClickListener() {
@@ -413,23 +390,11 @@ public class MainActivity extends AppCompatActivity {
         //获取ListView组件对象
         list = (ListView) lis.findViewById(R.id.list);
         Random random = new Random();
-     /*   for (int i = 0; i <allValues.size(); i++) {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("time", "顺丰快递");
-            map.put("pro", "取件地址：北校区");
-            map.put("collage", "送至：北区1栋");
-            map.put("remark", "态度好，请吃饭");
-            map.put("img",allImgs[random.nextInt(1)]);
-            allValues.add(map);
-        }*/
 
         //创建自定义Adapyer
         adapter = new MyAdapter(this, allValues);
         //将adapter添加到ListView中
         list.setAdapter(adapter);
-      /*  adapter = new SimpleAdapter(this, allValues, R.layout.my_simple_list_item, new String[]{"time", "pro", "collage", "remark"},
-                new int[]{R.id.time, R.id.pro, R.id.collage, R.id.remark});
-        list.setAdapter(adapter);*/
         //点击一行事件
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -499,6 +464,10 @@ public class MainActivity extends AppCompatActivity {
         addOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (Integer.parseInt(Util.userinfo.get("integral").toString())==0){
+                    Toast.makeText(MainActivity.this, "你的积分不足，无法发单", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 String msg = validate(et.getText().toString().trim(), "取件时间");
                 if (!msg.equals("")) {
                     Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
@@ -553,6 +522,11 @@ public class MainActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         if (flag[0].equals("true")) {
+                            //订单发布成功，修改发单用户积分
+                            int gradel=Integer.parseInt(grade.getText().toString().trim());
+                            int old=Integer.parseInt(Util.userinfo.get("integral").toString());
+                            Util.userinfo.put("integral",old-gradel);
+                            graden.setText(Util.userinfo.get("integral").toString());
                             Thread thread1 = new Thread() {
                                 @Override
                                 public void run() {
@@ -626,14 +600,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     /*
-    *
-    *
-    *
-    *
     * 头像上传模块
-    *
-    *
-    *
     *
     * */
 

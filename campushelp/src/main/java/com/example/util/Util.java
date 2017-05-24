@@ -33,6 +33,8 @@ public class Util {
     public static List<Map<String,Object>>  takeOrders=new ArrayList<Map<String, Object>>();
     //用户所发订单列表
     public static List<Map<String,Object>> preOrders=new ArrayList<Map<String, Object>>();
+    //订单搜索列表
+    public static List<Map<String,Object>> serOrder=new ArrayList<>();
     /**
      * 验证电话号码
      * @param text 电话号码

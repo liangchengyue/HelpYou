@@ -31,12 +31,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2.5"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
                 <ImageView
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:id="@+id/imageview"
                     android:src="@drawable/default_personal_image"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="3"
+                        android:layout_height="match_parent"
+                        android:id="@+id/nick_name_m"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:id="@+id/grade_m"/>
+                </LinearLayout>
             </LinearLayout>
             <!--昵称显示栏-->
             <LinearLayout

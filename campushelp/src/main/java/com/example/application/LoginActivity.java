@@ -65,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
                     return;
                 }
+                login.setText("正在登陆");
                 Thread thread = new Thread() {
                     @Override
                     public void run() {
