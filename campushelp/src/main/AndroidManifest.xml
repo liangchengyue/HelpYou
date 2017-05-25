@@ -51,7 +51,9 @@
         <activity android:name=".AccordorderActivity" />
         <activity android:name=".IdActivity" />
         <activity android:name=".EvaluationActivity" />
-        <activity android:name=".BussinessActivity"></activity>
+        <activity android:name=".BussinessActivity" />
+        <activity android:name=".BuyView" />
+        <activity android:name=".LssueView"></activity>
     </application>
 
 </manifest>

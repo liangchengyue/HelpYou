@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.application.R;
 
@@ -45,20 +46,22 @@ public class MyAdapterBuy extends BaseAdapter implements View.OnClickListener{
     @Override
     //
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder =null;
+        /*ViewHolder viewHolder =null;*/
         if (buy == null)
             buy = parent.getContext();
         if (convertView == null){
             //如果当前行没有被创建出来  利用之前的布局文件将行创建
             convertView = LayoutInflater.from(buy).inflate(R.layout.my_prder_list_buy,null);
-            viewHolder = new ViewHolder();
+            /*viewHolder = new ViewHolder();*/
             //*//*viewHolder.meEva = (Button) convertView.findViewById(R.id.me_eva_btn);*//*
-            viewHolder.Delete= (Button) convertView.findViewById(R.id.delete_btn);
-            convertView.setTag(viewHolder);
+            /*viewHolder.Delete= (Button) convertView.findViewById(R.id.delete_btn);
+            viewHolder.Eva=(Button)convertView.findViewById(R.id.reply_buy);
+            convertView.setTag(viewHolder);*/
         }
         //获取viewHolder实例
-        viewHolder = (ViewHolder) convertView.getTag();
-        viewHolder.Delete.setOnClickListener(this);
+        /*viewHolder = (ViewHolder) convertView.getTag();
+        viewHolder.Eva.setOnClickListener(this);
+        viewHolder.Delete.setOnClickListener(this);*/
         //头像图片
         TextView head = (TextView) convertView.findViewById(R.id.head);
         //设置图片高度
@@ -79,19 +82,19 @@ public class MyAdapterBuy extends BaseAdapter implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            /*//评价按钮的跳转
-            case R.id.me_eva_btn:
-                Intent in = new Intent(buy, EvaluationActivity.class);
-                buy.startActivity(in);
-                break;*/
+        /*switch (v.getId()){
+            //评价按钮的跳转
+            case R.id.reply_buy:
+               // Toast.makeText(buy,,Toast.LENGTH_SHORT).show();
+                break;
             //删除订单的按钮
             case R.id.me_delete_btn:
 
                 break;
-        }
+        }*/
     }
-    static class ViewHolder{
+  /*  static class ViewHolder{
         Button Delete;
-    }
+        Button Eva;
+    }*/
 }

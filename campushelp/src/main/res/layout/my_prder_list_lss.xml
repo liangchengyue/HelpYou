@@ -124,7 +124,7 @@
             android:layout_weight="1"
             android:orientation="horizontal">
             <!--删除按钮-->
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -146,13 +146,13 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"></LinearLayout>
-            <!--评价按钮-->
+            &lt;!&ndash;评价按钮&ndash;&gt;
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical">
-                <!--android:onClick="btnclick"-->
+                &lt;!&ndash;android:onClick="btnclick"&ndash;&gt;
                 <Button
                     android:id="@+id/me_eva_btn"
                     android:layout_weight="1"
@@ -163,7 +163,7 @@
                     android:textColor="#FF9900"
                     android:background="@drawable/border_btn"/>
 
-            </LinearLayout>
+            </LinearLayout>-->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"

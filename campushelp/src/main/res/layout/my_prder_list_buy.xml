@@ -141,16 +141,25 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <Button
+                <!--<Button
                     android:id="@+id/delete_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:text="删除订单"
                     android:layout_weight="1"
                     android:textColor="#FF9900"
                     android:background="@drawable/border_btn"/>
+                    <Button
+                        android:id="@+id/reply_buy"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="回复"
+                        android:textColor="#FF9900"
+                        android:background="@drawable/border_btn"/>
+-->
 
             </LinearLayout>
 

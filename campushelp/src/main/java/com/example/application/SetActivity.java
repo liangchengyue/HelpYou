@@ -34,7 +34,7 @@ public class SetActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent edi=null;
-                if (Util.userinfo.get("realName")==null){
+                if (Util.userinfo.get("realName").equals("null")){
                     edi = new Intent(SetActivity.this,EditorActivity.class);
                 }else {
                     edi=new Intent(SetActivity.this,IdActivity.class);

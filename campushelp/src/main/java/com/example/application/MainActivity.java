@@ -259,7 +259,9 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             if (!json.equals("]") || !json.equals("")) {
                                 JSONArray jsonArray = new JSONArray(json.toString());
-                                List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+                                Util.takeOrders.clear();
+
+                                List<Map<String, Object>> mapList = Util.takeOrders;
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                     Map<String, Object> map = new HashMap<String, Object>();
@@ -275,8 +277,9 @@ public class MainActivity extends AppCompatActivity {
                                     map.put("state", jsonObject1.getString("state"));
                                     mapList.add(map);
                                 }
-
-                                Util.takeOrders = mapList;
+                                if (BuyActivity.adapterBuy!=null){
+                                    BuyActivity.adapterBuy.notifyDataSetChanged();
+                                }
                             }
                             Intent in = new Intent(MainActivity.this, LssueActivity.class);
                             startActivity(in);
@@ -321,7 +324,9 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             if (!json.equals("]") || !json.equals("")) {
                                 JSONArray jsonArray = new JSONArray(json.toString());
-                                List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+                                Util.preOrders.clear();
+
+                                List<Map<String, Object>> mapList = Util.preOrders;
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                     Map<String, Object> map = new HashMap<String, Object>();
@@ -337,9 +342,9 @@ public class MainActivity extends AppCompatActivity {
                                     map.put("state", jsonObject1.getString("state"));
                                     mapList.add(map);
                                 }
-
-                                Util.preOrders = mapList;
-
+                                if (LssueActivity.adapterLssue!=null){
+                                    LssueActivity.adapterLssue.notifyDataSetChanged();
+                                }
                             }
                             Intent in = new Intent(MainActivity.this, BuyActivity.class);
                             startActivity(in);
@@ -526,7 +531,14 @@ public class MainActivity extends AppCompatActivity {
                             int gradel=Integer.parseInt(grade.getText().toString().trim());
                             int old=Integer.parseInt(Util.userinfo.get("integral").toString());
                             Util.userinfo.put("integral",old-gradel);
-                            graden.setText(Util.userinfo.get("integral").toString());
+                            Thread thread11=new Thread(){
+                                @Override
+                                public void run() {
+                                    handler.sendEmptyMessage(3);
+                                }
+                            };
+                           thread11.start();
+
                             Thread thread1 = new Thread() {
                                 @Override
                                 public void run() {
@@ -590,6 +602,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (msg.what == 1) {
                     adapter.notifyDataSetChanged();
+                }if (msg.what==3){
+                    graden.setText(Util.userinfo.get("integral").toString());
                 }
             }
         };
@@ -628,9 +642,6 @@ public class MainActivity extends AppCompatActivity {
 //                    imageView.setImageBitmap(bm);
                     //使用savaBitmap方法将bm中的uri获取并转换
                     Uri uri = savaBitmap(bm);
-                    startImageZoom(uri);
-
-
                 }
             }
         }

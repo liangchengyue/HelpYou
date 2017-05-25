@@ -47,23 +47,23 @@ public class MyAdapterLssue extends BaseAdapter implements View.OnClickListener{
     @Override
     //
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
+       /* ViewHolder viewHolder = null;*/
         if (lss == null)
             lss = parent.getContext();
         if (convertView == null){
             //如果当前行没有被创建出来  利用之前的布局文件将行创建
             convertView = LayoutInflater.from(lss).inflate(R.layout.my_prder_list_lss,null);
-            viewHolder = new ViewHolder();
+/*            viewHolder = new ViewHolder();
             viewHolder.meEva = (Button) convertView.findViewById(R.id.me_eva_btn);
             viewHolder.meDelete= (Button) convertView.findViewById(R.id.me_delete_btn);
-            convertView.setTag(viewHolder);
+            convertView.setTag(viewHolder);*/
         }
         //获取viewHolder实例
-        viewHolder = (ViewHolder) convertView.getTag();
+/*        viewHolder = (ViewHolder) convertView.getTag();
         viewHolder.meEva.setTag(R.id.btn);
         viewHolder.meDelete.setTag(R.id.btn);
         viewHolder.meDelete.setOnClickListener(this);
-        viewHolder.meEva.setOnClickListener(this);
+        viewHolder.meEva.setOnClickListener(this);*/
         //头像图片
         TextView head_me = (TextView) convertView.findViewById(R.id.head_me);
         //设置图片高度
@@ -84,7 +84,7 @@ public class MyAdapterLssue extends BaseAdapter implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+       /* switch (v.getId()){
             //评价按钮的跳转
             case R.id.me_eva_btn:
                 Intent in = new Intent(lss, EvaluationActivity.class);
@@ -93,12 +93,12 @@ public class MyAdapterLssue extends BaseAdapter implements View.OnClickListener{
             //删除订单的按钮
             case R.id.me_delete_btn:
                 break;
-        }
+        }*/
     }
 
-    static class ViewHolder{
+/*    static class ViewHolder{
         Button meEva;
         Button meDelete;
 
-    }
+    }*/
 }

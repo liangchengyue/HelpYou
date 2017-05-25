@@ -1,11 +1,14 @@
 package com.example.application;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.example.adapter.MyAdapterBuy;
 import com.example.adapter.MyAdapterLssue;
@@ -21,8 +24,8 @@ public class BuyActivity extends AppCompatActivity {
     private Button Breturn;
 
 
-    private List<Map<String,Object>> allValues =Util.preOrders;
-    private MyAdapterBuy adapterBuy;
+    private List<Map<String,Object>> allValues =Util.takeOrders;
+    public static MyAdapterBuy adapterBuy;
     private int[] allImgs = new int[]{R.mipmap.head };
     private ListView orderList;
 
@@ -39,38 +42,18 @@ public class BuyActivity extends AppCompatActivity {
                 finish();
             }
         });
-        /**
-         *
-         evaBtn = (Button) findViewById(R.id.eva_btn);
-         evaBtn.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-        Intent eva =new Intent(BuyActivity.this,EvaluationActivity.class);
-        startActivity(eva);
-        }
-        });
-         */
 
-        //显示Listview
-        /**
-         * 显示购买的订单
-         */
         orderList = (ListView) findViewById(R.id.order_list);
-//        for (int i=0;i<4;i++){
-//            Map<String, Object> map = new HashMap<String, Object>();
-//            map.put("call", "小石浪");
-//            map.put("order_time", "接单时间：2017/5/21");
-//            map.put("price", "总价：5元");
-//            map.put("complete", "完成");
-//            allValues.add(map);
-//             }
          adapterBuy = new MyAdapterBuy(this,allValues);
          orderList.setAdapter(adapterBuy);
-
-
-        /*adapter = new SimpleAdapter(this, allValues, R.layout.my_prder_list_buy, new String[]{"name", "time", "grade", "state"},
-                new int[]{R.id.call, R.id.order_time, R.id.price, R.id.complete});*/
-
+        orderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent=new Intent(BuyActivity.this,BuyView.class);
+                intent.putExtra("index",position);
+                startActivity(intent);
+            }
+        });
     }
     protected void onDestroy(){
         Util.allActiveActivities.remove(this);
