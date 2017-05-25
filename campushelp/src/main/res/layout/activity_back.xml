@@ -142,7 +142,7 @@
                         android:background="@drawable/border_yz"
                         android:layout_marginTop="18dp"
                         android:layout_marginBottom="18dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="5dp"
                         android:gravity="center">
                     <TextView
                         android:layout_width="wrap_content"

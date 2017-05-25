@@ -62,15 +62,15 @@ public class SetActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        oPi = (TextView) findViewById(R.id.opi);
-        oPi.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                Intent op =new Intent(SetActivity.this,OpinionActivity.class);
-                startActivity(op);
-            }
-        });
+//        oPi = (TextView) findViewById(R.id.opi);
+//        oPi.setOnClickListener(new View.OnClickListener(){
+//
+//            @Override
+//            public void onClick(View v) {
+//                Intent op =new Intent(SetActivity.this,OpinionActivity.class);
+//                startActivity(op);
+//            }
+//        });
         mA = (Button) findViewById(R.id.index_btn);
         mA.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

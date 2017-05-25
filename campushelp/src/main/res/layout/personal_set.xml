@@ -73,7 +73,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:text="学生认证"
+                android:text="实名认证"
                 android:textColor="#000000"
                 android:gravity="center"
                 android:textSize="24sp"
@@ -120,7 +120,7 @@
                 android:textSize="26sp"/>
         </LinearLayout>
         <!--新订单提醒-->
-        <LinearLayout
+       <!-- <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -153,10 +153,10 @@
                 android:textOn=""
                 android:textOff=""/>
             </LinearLayout>
-        </LinearLayout>
+        </LinearLayout>-->
 
         <!--意见反馈-->
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -183,7 +183,7 @@
                 android:textColor="#000000"
                 android:gravity="center"
                 android:textSize="26sp"/>
-        </LinearLayout>
+        </LinearLayout>-->
         <!--关于我们-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -225,7 +225,7 @@
 
         </LinearLayout>
         <!--分享给同学-->
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -251,7 +251,7 @@
                 android:textColor="#000000"
                 android:gravity="center"
                 android:textSize="26sp"/>
-        </LinearLayout>
+        </LinearLayout>-->
     </LinearLayout>
 
 

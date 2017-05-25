@@ -28,14 +28,12 @@ import java.util.Map;
 
 public class LssueView extends AppCompatActivity {
     private Button lssOut;
-    private Button lssCancel;
     private Button lssDelete;
     private Button lssEva;
     private ListView lssList;
     private Map<String,Object> map;
     private TextView name;
     private TextView state;
-    private Button cancel;
     private Button lssOk;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,45 +53,45 @@ public class LssueView extends AppCompatActivity {
             }
         });
         //取消订单按钮
-        lssCancel= (Button) findViewById(R.id.lss_cancel);
-        lssCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (map.get("state").toString().equals("未接单")){
-                    Toast.makeText(LssueView.this,"请稍等",Toast.LENGTH_SHORT).show();
-                    Util.preOrders.remove(map);
-                    Util.orders.remove(map);
-                    //更新界面列表
-                    MainActivity.adapter.notifyDataSetChanged();
-                    LssueActivity.adapterLssue.notifyDataSetChanged();
-                    //更新数据库
-                    Thread thread=new Thread(){
-                        @Override
-                        public void run() {
-                            try {
-                                String url=Util.ip+"order/delOrder?id="+map.get("id").toString();
-                                URL url1 = new URL(url);
-                                URLConnection urlConnection = url1.openConnection();
-                                InputStream is = urlConnection.getInputStream();
-                                BufferedReader bf = new BufferedReader(new InputStreamReader(is));
-                                String f = bf.readLine();
-                                bf.close();
-                                is.close();
-                                if (f.equals("succcess")){
-                                    Toast.makeText(LssueView.this,"删除成功",Toast.LENGTH_SHORT).show();
-                                    finish();
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    };
-                    thread.start();
-                }else {
-                    Toast.makeText(LssueView.this,"该订单不能取消",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+//        lssCancel= (Button) findViewById(R.id.lss_cancel);
+//        lssCancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (map.get("state").toString().equals("未接单")){
+//                    Toast.makeText(LssueView.this,"请稍等",Toast.LENGTH_SHORT).show();
+//                    Util.preOrders.remove(map);
+//                    Util.orders.remove(map);
+//                    //更新界面列表
+//                    MainActivity.adapter.notifyDataSetChanged();
+//                    LssueActivity.adapterLssue.notifyDataSetChanged();
+//                    //更新数据库
+//                    Thread thread=new Thread(){
+//                        @Override
+//                        public void run() {
+//                            try {
+//                                String url=Util.ip+"order/delOrder?id="+map.get("id").toString();
+//                                URL url1 = new URL(url);
+//                                URLConnection urlConnection = url1.openConnection();
+//                                InputStream is = urlConnection.getInputStream();
+//                                BufferedReader bf = new BufferedReader(new InputStreamReader(is));
+//                                String f = bf.readLine();
+//                                bf.close();
+//                                is.close();
+//                                if (f.equals("succcess")){
+//                                    Toast.makeText(LssueView.this,"删除成功",Toast.LENGTH_SHORT).show();
+//                                    finish();
+//                                }
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    };
+//                    thread.start();
+//                }else {
+//                    Toast.makeText(LssueView.this,"该订单不能取消",Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
         //删除订单按钮
         lssDelete= (Button) findViewById(R.id.lss_delete);
         lssDelete.setOnClickListener(new View.OnClickListener() {

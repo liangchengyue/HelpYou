@@ -154,6 +154,7 @@ public class EditorActivity extends AppCompatActivity {
                                 m.put("idCard",idCard.getText().toString());
                                 m.put("gender",gender);
                                 m.put("school",school);
+                                m.put("integral",50);
                                 Intent in=new Intent(EditorActivity.this,IdActivity.class);
                                 startActivity(in);
                                 finish();

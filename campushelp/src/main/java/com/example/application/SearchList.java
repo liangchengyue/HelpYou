@@ -51,6 +51,13 @@ public class SearchList extends AppCompatActivity {
         mapList=Util.serOrder;
         listAdapder=new MyAdapter(this,mapList);
         listView.setAdapter(listAdapder);
+        out=(Button)findViewById(R.id.out_list);
+        out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         scrach.setOnClickListener(new View.OnClickListener() {
             @Override

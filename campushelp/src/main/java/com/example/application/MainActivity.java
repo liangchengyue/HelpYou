@@ -52,6 +52,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -114,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         this.mySet(personalView);
         this.myLss(personalView);
         this.myBuy(personalView);
-        this.Camera(personalView);
+        //this.Camera(personalView);
 
 
         /*//View myset = LayoutInflater.from(this).inflate(R.layout.personal_set,null);
@@ -259,9 +260,9 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             if (!json.equals("]") || !json.equals("")) {
                                 JSONArray jsonArray = new JSONArray(json.toString());
-                                Util.takeOrders.clear();
+                                Util.preOrders.clear();
 
-                                List<Map<String, Object>> mapList = Util.takeOrders;
+                                List<Map<String, Object>> mapList = Util.preOrders;
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                     Map<String, Object> map = new HashMap<String, Object>();
@@ -324,9 +325,9 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             if (!json.equals("]") || !json.equals("")) {
                                 JSONArray jsonArray = new JSONArray(json.toString());
-                                Util.preOrders.clear();
+                                Util.takeOrders.clear();
 
-                                List<Map<String, Object>> mapList = Util.preOrders;
+                                List<Map<String, Object>> mapList = Util.takeOrders;
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                     Map<String, Object> map = new HashMap<String, Object>();
@@ -385,9 +386,11 @@ public class MainActivity extends AppCompatActivity {
 
     //ListView 显示订单界面
     private ListView list;
-    private List<Map<String, Object>> allValues = Util.orders;
+    private List<Map<String, Object>> allValues ;
     public static MyAdapter adapter;
     private int[] allImgs = new int[]{R.mipmap.head};
+    private TextView refresh;
+    private Handler handlerM;
 
     protected void myView(View lis) {
         //主页面订单显示界面
@@ -395,12 +398,69 @@ public class MainActivity extends AppCompatActivity {
         //获取ListView组件对象
         list = (ListView) lis.findViewById(R.id.list);
         Random random = new Random();
-
+        allValues=Util.orders;
         //创建自定义Adapyer
         adapter = new MyAdapter(this, allValues);
         //将adapter添加到ListView中
         list.setAdapter(adapter);
-        //点击一行事件
+        //刷新订单
+//        refresh=(TextView)lis.findViewById(R.id.refresh);
+//        refresh.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Thread thread=new Thread(){
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            String url = Util.ip + "order/queryOrderList";;
+//
+//                            URL url2 = new URL(url);
+//                            URLConnection uc = url2.openConnection();
+//                            InputStream is = uc.getInputStream();
+//                            BufferedReader bf = new BufferedReader(new InputStreamReader(is));
+//                            String json = bf.readLine();
+//                            bf.close();
+//                            is.close();
+//                            if (!json.equals("]")) {
+//                                JSONArray jsonArray = new JSONArray(json.toString());
+//                                List<Map<String, Object>> mapList = Util.orders;
+//                                for (int i = 0; i < jsonArray.length(); i++) {
+//                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+//                                    Map<String, Object> map = new HashMap<String, Object>();
+//                                    map.put("id", jsonObject1.getString("id"));
+//                                    map.put("time", jsonObject1.getString("takeDate"));
+//                                    map.put("collage", jsonObject1.getString("takeaddress"));
+//                                    map.put("pro", jsonObject1.getString("preaddress"));
+//                                    map.put("remark", jsonObject1.getString("remarks"));
+//                                    map.put("img", R.mipmap.head);
+//                                    map.put("name", jsonObject1.getString("name"));
+//                                    map.put("phone", jsonObject1.getString("teltPhone"));
+//                                    map.put("grade", jsonObject1.getString("grade"));
+//                                    mapList.add(map);
+//                                }
+//                               // adapter.notifyDataSetChanged();
+//                                handlerM.sendEmptyMessage(0);
+//                            }
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                    };
+//                thread.start();
+//            }
+//        });
+//        handlerM=new Handler(){
+//            @Override
+//            public void handleMessage(Message msg) {
+//                if (msg.what==0)
+//                {
+//
+//                }
+//            }
+//        };
+//        //点击一行事件
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -531,6 +591,25 @@ public class MainActivity extends AppCompatActivity {
                             int gradel=Integer.parseInt(grade.getText().toString().trim());
                             int old=Integer.parseInt(Util.userinfo.get("integral").toString());
                             Util.userinfo.put("integral",old-gradel);
+                            //修改数据库中用户积分
+                            Thread th=new Thread(){
+                                @Override
+                                public void run() {
+                                    String url = Util.ip + "user/updateGrade?id="+Util.userId+"&grade="+Util.userinfo.get("integral");
+                                    URL url2 = null;
+                                    try {
+                                        url2 = new URL(url);
+                                    } catch (MalformedURLException e) {
+                                        e.printStackTrace();
+                                    }
+                                    try {
+                                        URLConnection uc = url2.openConnection();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            };
+                            th.start();
                             Thread thread11=new Thread(){
                                 @Override
                                 public void run() {
@@ -624,151 +703,151 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageView;
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAMERA_REQUEST_CODE) {
-            //判断用户是否点击了取消
-            if (data == null) {
-                return;
-            }//如果用户点击的是确定按钮
-            else {
-                //从data中取出数据
-                Bundle extras = data.getExtras();
-                if (extras != null) {
-                    //保存用户拍摄的数据
-                    Bitmap bm = extras.getParcelable("data");
-//                    ImageView imageView = (ImageView) findViewById(R.id.imageview );
-//                    //把拍摄的数据显示在imageview中
-//                    imageView.setImageBitmap(bm);
-                    //使用savaBitmap方法将bm中的uri获取并转换
-                    Uri uri = savaBitmap(bm);
-                }
-            }
-        }
-        //判断用户是否从裁剪界面返回
-        else if (requestCode == GALLERY_REQUEST_CODE) {
-            //用户点击取消
-            if (data == null) {
-                return;
-            }
-            Uri uri;
-            uri = data.getData();
-            //判断从图库中读取图片后调用裁剪界面
-            Uri FileUri = convertUri(uri);
-            startImageZoom(FileUri);
-        } else if (requestCode == CROP_REQUEST_CODE) {
-            if (data == null) {
-                return;
-            }
-            Bundle extres = data.getExtras();
-            Bitmap bm = extres.getParcelable("data");
-            ImageView imageview = (ImageView) findViewById(R.id.imageview);
-            imageview.setImageBitmap(bm);
-        }
-    }
-
-
-    protected void Camera(View view) {
-
-
-        //通过摄像头获取头像
-//            Button button = (Button) findViewById(R.id.btn_camera);
-//            button.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                    //打开图库
-//                    startActivityForResult(intent,CAMERA_REQUEST_CODE);
+    //@Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == CAMERA_REQUEST_CODE) {
+//            //判断用户是否点击了取消
+//            if (data == null) {
+//                return;
+//            }//如果用户点击的是确定按钮
+//            else {
+//                //从data中取出数据
+//                Bundle extras = data.getExtras();
+//                if (extras != null) {
+//                    //保存用户拍摄的数据
+//                    Bitmap bm = extras.getParcelable("data");
+////                    ImageView imageView = (ImageView) findViewById(R.id.imageview );
+////                    //把拍摄的数据显示在imageview中
+////                    imageView.setImageBitmap(bm);
+//                    //使用savaBitmap方法将bm中的uri获取并转换
+//                    Uri uri = savaBitmap(bm);
 //                }
-//            });
-
-
-        //点击头像跳转到打开图库
-        //ImageView imageView = (ImageView) findViewById(R.id.imageview);
-        Button btn_gallery = (Button) view.findViewById(R.id.btn_gallery);
-        btn_gallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //打开图库界面
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                //设定打开的文件类型
-                intent.setType("image/*");
-                //
-                startActivityForResult(intent, GALLERY_REQUEST_CODE);
-            }
-        });
-    }
-
-    //打开裁剪界面
-    private void startImageZoom(Uri uri) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        //裁剪的类型
-        intent.setDataAndType(uri, "image/*");
-        //设置裁剪的比例和长宽
-        intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        intent.putExtra("outputX", 150);
-        intent.putExtra("outputY", 150);
-        intent.putExtra("return-data", true);
-        //通过这个码打开裁剪界面
-        startActivityForResult(intent, CROP_REQUEST_CODE);
-    }
-
-    private File file;
-    //创建文件夹
-    private Uri savaBitmap(Bitmap bm) {
-        File temDir = new File(Environment.getExternalStorageDirectory() + "/com.tanchao");
-        if (!temDir.exists()) {
-
-            temDir.mkdirs();
-
-        }
-       File img = new File(temDir.getAbsoluteFile() + "avater.png");
-        file=img;
-
-        try {
-            //获取到bitmap类型的URI，然后添加到输出流中
-            FileOutputStream fos = new FileOutputStream(img);
-            bm.compress(Bitmap.CompressFormat.PNG, 85, fos);
-            file=img;
-            try {
-                fos.flush();
-                fos.close();
-                //返回bitmap类型的返回值
-                return Uri.fromFile(img);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
-    private Uri convertUri(Uri uri) {
-        InputStream is = null;
-        try {
-            //将原来content的uri读取出来，并转换为bitmap的uri
-            is = getContentResolver().openInputStream(uri);
-            //这个工厂类
-            Bitmap bitmap = BitmapFactory.decodeStream(is);
-            try {
-                is.close();
-                return savaBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-
-    }
+//            }
+//        }
+//        //判断用户是否从裁剪界面返回
+//        else if (requestCode == GALLERY_REQUEST_CODE) {
+//            //用户点击取消
+//            if (data == null) {
+//                return;
+//            }
+//            Uri uri;
+//            uri = data.getData();
+//            //判断从图库中读取图片后调用裁剪界面
+//            Uri FileUri = convertUri(uri);
+//            startImageZoom(FileUri);
+//        } else if (requestCode == CROP_REQUEST_CODE) {
+//            if (data == null) {
+//                return;
+//            }
+//            Bundle extres = data.getExtras();
+//            Bitmap bm = extres.getParcelable("data");
+//            ImageView imageview = (ImageView) findViewById(R.id.imageview);
+//            imageview.setImageBitmap(bm);
+//        }
+//    }
+//
+//
+//    protected void Camera(View view) {
+//
+//
+//        //通过摄像头获取头像
+////            Button button = (Button) findViewById(R.id.btn_camera);
+////            button.setOnClickListener(new View.OnClickListener() {
+////                @Override
+////                public void onClick(View v) {
+////                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+////                    //打开图库
+////                    startActivityForResult(intent,CAMERA_REQUEST_CODE);
+////                }
+////            });
+//
+//
+//        //点击头像跳转到打开图库
+//        //ImageView imageView = (ImageView) findViewById(R.id.imageview);
+//        Button btn_gallery = (Button) view.findViewById(R.id.btn_gallery);
+//        btn_gallery.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //打开图库界面
+//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                //设定打开的文件类型
+//                intent.setType("image/*");
+//                //
+//                startActivityForResult(intent, GALLERY_REQUEST_CODE);
+//            }
+//        });
+//    }
+//
+//    //打开裁剪界面
+//    private void startImageZoom(Uri uri) {
+//        Intent intent = new Intent("com.android.camera.action.CROP");
+//        //裁剪的类型
+//        intent.setDataAndType(uri, "image/*");
+//        //设置裁剪的比例和长宽
+//        intent.putExtra("crop", "true");
+//        intent.putExtra("aspectX", 1);
+//        intent.putExtra("aspectY", 1);
+//        intent.putExtra("outputX", 150);
+//        intent.putExtra("outputY", 150);
+//        intent.putExtra("return-data", true);
+//        //通过这个码打开裁剪界面
+//        startActivityForResult(intent, CROP_REQUEST_CODE);
+//    }
+//
+//    private File file;
+//    //创建文件夹
+//    private Uri savaBitmap(Bitmap bm) {
+//        File temDir = new File(Environment.getExternalStorageDirectory() + "/com.tanchao");
+//        if (!temDir.exists()) {
+//
+//            temDir.mkdirs();
+//
+//        }
+//       File img = new File(temDir.getAbsoluteFile() + "avater.png");
+//        file=img;
+//
+//        try {
+//            //获取到bitmap类型的URI，然后添加到输出流中
+//            FileOutputStream fos = new FileOutputStream(img);
+//            bm.compress(Bitmap.CompressFormat.PNG, 85, fos);
+//            file=img;
+//            try {
+//                fos.flush();
+//                fos.close();
+//                //返回bitmap类型的返回值
+//                return Uri.fromFile(img);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                return null;
+//            }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
+//
+//
+//    private Uri convertUri(Uri uri) {
+//        InputStream is = null;
+//        try {
+//            //将原来content的uri读取出来，并转换为bitmap的uri
+//            is = getContentResolver().openInputStream(uri);
+//            //这个工厂类
+//            Bitmap bitmap = BitmapFactory.decodeStream(is);
+//            try {
+//                is.close();
+//                return savaBitmap(bitmap);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                return null;
+//            }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//
+//
+//    }
 
 
 ///////////////////////////////////////////////

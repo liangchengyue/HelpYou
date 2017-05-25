@@ -34,7 +34,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="学生认证"
+                android:text="实名认证"
                 android:textSize="24sp"
                 android:gravity="center"
                 android:textColor="#FFFFFF"

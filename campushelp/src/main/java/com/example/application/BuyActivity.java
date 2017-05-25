@@ -24,7 +24,7 @@ public class BuyActivity extends AppCompatActivity {
     private Button Breturn;
 
 
-    private List<Map<String,Object>> allValues =Util.takeOrders;
+    private List<Map<String,Object>> allValues =Util.preOrders;
     public static MyAdapterBuy adapterBuy;
     private int[] allImgs = new int[]{R.mipmap.head };
     private ListView orderList;

@@ -25,7 +25,7 @@ public class LssueActivity extends AppCompatActivity {
     //ListView中的分步点击事件
     //获取发布订单的listView
     private  ListView resList;
-    private List<Map<String,Object>> allValues = Util.preOrders;
+    private List<Map<String,Object>> allValues = Util.takeOrders;
     public static MyAdapterLssue adapterLssue;
     private int[] allImgs = new int[]{R.mipmap.head };
     @Override

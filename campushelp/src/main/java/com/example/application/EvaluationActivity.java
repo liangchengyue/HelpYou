@@ -96,6 +96,7 @@ public class EvaluationActivity extends AppCompatActivity {
                     }
                 };
                 thread.start();
+                centent.setText("");
             }
 
         });
