@@ -89,14 +89,40 @@ public class RegisterActivity extends AppCompatActivity {
                 thread.start();
             }
         });
+
         handler=new Handler(){
             @Override
             public void handleMessage(Message msg) {
                if (msg.what==0){
                    verCode.setText("发送失败");
                }
+                if (msg.what==3){
+                    verCode.setText(time+"秒后重试");
+                }
+                if (msg.what==2){
+                    verCode.setText("重新获取");
+                }
                 if (msg.what==1){
-                    verCode.setText("发送成功");
+                    Toast.makeText(RegisterActivity.this, "短信发送成功", Toast.LENGTH_SHORT).show();
+                    Thread thread=new Thread(){
+                        @Override
+                        public void run() {
+                            while (time--!=0){
+                                handler.sendEmptyMessage(3);
+                                verCode.setClickable(false);
+                                try {
+                                    sleep(1000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            handler.sendEmptyMessage(2);
+                            verCode.setClickable(true);
+                            time=60;
+                        }
+                    };
+                    thread.start();
+
                 }
             }
         };
@@ -115,7 +141,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
     }
-
+private  int time=60;
     protected String validate(String text) {
         String msg = "";
         String regExp = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";

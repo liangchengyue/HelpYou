@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 
 public class Util {
     //ip
-    public static String ip="http://192.168.1.95:8080/Express_delivery/";
+    public static String ip="http://169.254.130.179:8080/Express_delivery/";
     public static List<AppCompatActivity> allActiveActivities = new ArrayList<AppCompatActivity>();
     //用户ID
     public static String userId;

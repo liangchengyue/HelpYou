@@ -185,6 +185,7 @@ public class LoginActivity extends AppCompatActivity {
                                                         map.put("activeEndDate",jsonObject1.getString("activeEndDate"));
                                                         map.put("businessAddress",jsonObject1.getString("businessAddress"));
                                                         map.put("businessName",jsonObject1.getString("businessName"));
+                                                        map.put("imagePath",jsonObject1.getString("imagePath"));
                                                         map.put("id",jsonObject1.getString("id"));
                                                         mapList.add(map);
                                                     }
