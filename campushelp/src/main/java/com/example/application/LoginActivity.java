@@ -66,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 login.setText("正在登陆");
+                login.setClickable(false);
                 Thread thread = new Thread() {
                     @Override
                     public void run() {

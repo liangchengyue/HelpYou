@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -258,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         try {
-                            if (!json.equals("]") || !json.equals("")) {
+                            if (!json.equals("]") && !json.equals("")) {
                                 JSONArray jsonArray = new JSONArray(json.toString());
                                 Util.preOrders.clear();
 
@@ -506,7 +507,6 @@ public class MainActivity extends AppCompatActivity {
         remarks = (EditText) v.findViewById(R.id.remarks_a);
         addOrder = (Button) v.findViewById(R.id.addOrder_o);
 
-
         et.setOnClickListener(new View.OnClickListener() {
             Calendar c = Calendar.getInstance();
 
@@ -561,10 +561,11 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 final String[] flag = {""};
+                Toast.makeText(MainActivity.this,"正在发单，请稍后", Toast.LENGTH_LONG);
                 Thread thread = new Thread() {
                     @Override
                     public void run() {
-
+                        addOrder.setClickable(false);
                         Map<String, String> map = new HashMap<String, String>();
                         map.put("takeDate", et.getText().toString());
                         map.put("name", name.getText().toString());
@@ -591,6 +592,7 @@ public class MainActivity extends AppCompatActivity {
                             int gradel=Integer.parseInt(grade.getText().toString().trim());
                             int old=Integer.parseInt(Util.userinfo.get("integral").toString());
                             Util.userinfo.put("integral",old-gradel);
+                            addOrder.setClickable(false);
                             //修改数据库中用户积分
                             Thread th=new Thread(){
                                 @Override
@@ -673,7 +675,7 @@ public class MainActivity extends AppCompatActivity {
                 if (msg.what == 0) {
                     et.setText("");
                     name.setText("");
-                    takeaddress.setText("");
+                   takeaddress.setText("");
                     preaddress.setText("");
                     teltPhone.setText("");
                     grade.setText("");

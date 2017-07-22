@@ -239,7 +239,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="回报(元)"
+                    android:text="积分"
                     android:textColor="#000000"
                     android:gravity="center"/>
             </LinearLayout>
